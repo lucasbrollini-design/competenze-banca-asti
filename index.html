@@ -4,414 +4,424 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Modello Competenze — Banca di Asti</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* ─── SKILLVUE DESIGN SYSTEM TOKENS ─── */
 :root {
-  --bg: #0E0F14;
-  --bg2: #14151C;
-  --bg3: #1A1C26;
-  --surface: #1F2130;
-  --surface2: #252840;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.12);
-  --ink: #F0F2FF;
-  --ink2: #9BA3C8;
-  --ink3: #5C6490;
-  --red: #E85D75;
-  --red-dim: rgba(232,93,117,0.15);
-  --blue: #5B8AF5;
-  --blue-dim: rgba(91,138,245,0.15);
-  --green: #4ECBA4;
-  --green-dim: rgba(78,203,164,0.15);
-  --amber: #F5A623;
-  --amber-dim: rgba(245,166,35,0.15);
-  --purple: #A78BFA;
-  --purple-dim: rgba(167,139,250,0.15);
-  --cyan: #22D3EE;
-  --cyan-dim: rgba(34,211,238,0.15);
-  --pink: #F472B6;
-  --pink-dim: rgba(244,114,182,0.15);
+  /* Brand */
+  --primary:        #6769FF;
+  --primary-hover:  #5557DD;
+  --primary-light:  #EDEDFF;
+  --primary-text:   #5557DD;
 
-  --r: 12px;
-  --r-sm: 8px;
-  --shadow: 0 0 0 1px var(--border), 0 8px 32px rgba(0,0,0,0.4);
+  /* Neutrals */
+  --n900: #111827;
+  --n700: #374151;
+  --n500: #6B7280;
+  --n400: #9CA3AF;
+  --n300: #D1D5DB;
+  --n200: #E5E7EB;
+  --n100: #F3F4F6;
+  --n50:  #F9FAFB;
+  --n0:   #FFFFFF;
+
+  /* Semantic */
+  --info-bg:    #EFF6FF; --info-border:  #BFDBFE; --info-text:    #1D4ED8;
+  --success-bg: #F0FDF4; --success-border:#BBF7D0; --success-text: #15803D;
+  --warning-bg: #FFFBEB; --warning-border:#FDE68A; --warning-text: #B45309;
+  --danger-bg:  #FEF2F2; --danger-border: #FECACA; --danger-text:  #B91C1C;
+
+  /* Area colors — mapped to semantic palette */
+  --c-normative:    #B91C1C; --c-normative-bg:    #FEF2F2;
+  --c-informatiche: #1D4ED8; --c-informatiche-bg: #EFF6FF;
+  --c-linguistiche: #15803D; --c-linguistiche-bg: #F0FDF4;
+  --c-supporto:     #B45309; --c-supporto-bg:     #FFFBEB;
+  --c-ruolo:        #5557DD; --c-ruolo-bg:        #EDEDFF;
+  --c-soft:         #0369A1; --c-soft-bg:         #E0F2FE;
+  --c-manageriali:  #7C3AED; --c-manageriali-bg:  #F5F3FF;
+
+  /* Layout */
+  --sidebar-w: 239px;
+  --topbar-h:  56px;
+  --radius-sm: 4px;
+  --radius:    8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.10);
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-  font-family: 'Sora', sans-serif;
-  background: var(--bg);
-  color: var(--ink);
-  min-height: 100vh;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  background: var(--n50);
+  color: var(--n700);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
 }
 
-/* BG GRID */
-body::before {
-  content:'';
-  position:fixed; inset:0; z-index:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events:none;
+/* ─── TOPBAR ─── */
+.topbar {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  height: var(--topbar-h);
+  background: var(--n0);
+  border-bottom: 1px solid var(--n200);
+  display: flex; align-items: center;
+  padding: 0 24px 0 0;
+  gap: 0;
 }
+.topbar-logo {
+  width: var(--sidebar-w);
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 20px;
+  border-right: 1px solid var(--n200);
+  height: 100%;
+  flex-shrink: 0;
+}
+.topbar-logo svg { flex-shrink: 0; }
+.topbar-title {
+  font-size: 13px; font-weight: 600; color: var(--n900);
+  line-height: 1.2;
+}
+.topbar-sub { font-size: 11px; color: var(--n500); font-weight: 400; }
 
-/* HEADER */
-.header {
-  position: sticky; top:0; z-index:100;
-  background: rgba(14,15,20,0.85);
-  backdrop-filter: blur(24px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 32px;
-  display: flex;
-  align-items: center;
-  height: 64px;
-  gap: 24px;
+.topbar-kpis {
+  display: flex; gap: 28px; padding: 0 24px; flex: 1;
 }
-.logo {
-  display:flex; align-items:center; gap:10px;
-  flex-shrink:0;
-}
-.logo-mark {
-  width:34px; height:34px;
-  background: linear-gradient(135deg, var(--red), #B03050);
-  border-radius: 8px;
-  display:flex; align-items:center; justify-content:center;
-  font-weight:800; font-size:13px; letter-spacing:-0.5px;
-  color:#fff;
-}
-.logo-text {
-  font-size:13px; font-weight:600; color:var(--ink);
-  line-height:1.2;
-}
-.logo-sub { font-size:10px; color:var(--ink3); font-weight:400; }
-
-.header-divider { width:1px; height:28px; background:var(--border); flex-shrink:0; }
-
-/* KPIs */
-.header-kpis {
-  display:flex; gap:32px; flex:1;
-}
-.kpi {
-  display:flex; align-items:center; gap:8px;
-}
+.kpi { display: flex; align-items: center; gap: 8px; }
 .kpi-num {
-  font-family:'DM Mono',monospace;
-  font-size:22px; font-weight:500; color:var(--ink);
-  letter-spacing:-1px;
+  font-size: 20px; font-weight: 700; color: var(--n900);
+  letter-spacing: -0.5px;
 }
-.kpi-label { font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:.8px; }
+.kpi-label { font-size: 11px; color: var(--n500); text-transform: uppercase; letter-spacing: .6px; font-weight: 500; }
 
-/* NAV */
-.nav {
-  margin-left:auto; display:flex; gap:2px;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 3px;
-}
-.nav-btn {
-  border:none; background:transparent;
-  font-family:'Sora',sans-serif; font-size:12px; font-weight:500;
-  color:var(--ink3); cursor:pointer;
-  padding:6px 14px; border-radius: 7px;
-  transition: all .2s; white-space:nowrap;
-}
-.nav-btn:hover { color:var(--ink); background:var(--surface); }
-.nav-btn.active { background:var(--surface2); color:var(--ink); }
+.topbar-divider { width:1px; height:28px; background:var(--n200); flex-shrink:0; }
 
-/* MAIN */
-.main { position:relative; z-index:1; padding:28px 32px 60px; max-width:1600px; margin:0 auto; }
-
-/* SEARCH + FILTERS */
-.toolbar { display:flex; gap:12px; margin-bottom:20px; align-items:center; }
-.search-wrap { position:relative; flex:1; max-width:420px; }
-.search-wrap svg { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--ink3); pointer-events:none; }
-.search-wrap input {
-  width:100%; padding:10px 16px 10px 42px;
-  background:var(--surface); border:1px solid var(--border2);
-  border-radius: var(--r-sm); color:var(--ink);
-  font-family:'Sora',sans-serif; font-size:13px; outline:none;
-  transition: border-color .2s;
+/* ─── SIDEBAR ─── */
+.sidebar {
+  position: fixed; left:0; top: var(--topbar-h); bottom:0;
+  width: var(--sidebar-w);
+  background: var(--n0);
+  border-right: 1px solid var(--n200);
+  display: flex; flex-direction: column;
+  z-index: 50;
 }
-.search-wrap input:focus { border-color:rgba(91,138,245,0.5); }
-.search-wrap input::placeholder { color:var(--ink3); }
-
-.filters { display:flex; gap:6px; flex-wrap:wrap; }
-.chip {
-  padding:6px 12px; border:1px solid var(--border);
-  border-radius:100px; font-size:11.5px; font-weight:500;
-  color:var(--ink3); background:var(--surface); cursor:pointer;
-  transition:all .2s; display:flex; align-items:center; gap:5px;
-  font-family:'Sora',sans-serif;
+.sidebar-nav { flex: 1; padding: 12px 8px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  height: 40px; padding: 0 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 14px; font-weight: 500;
+  color: var(--n700);
+  transition: all .15s;
+  border: none; background: transparent; width: 100%;
+  text-align: left;
 }
-.chip:hover { border-color:var(--border2); color:var(--ink); }
-.chip.active { border-color:var(--blue); background:var(--blue-dim); color:var(--blue); }
-.chip .dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
-
-/* RESULTS */
-.results-bar {
-  font-size:12px; color:var(--ink3);
-  margin-bottom:16px;
-  display:flex; align-items:center; gap:8px;
+.nav-item svg { color: var(--n400); flex-shrink: 0; transition: color .15s; }
+.nav-item:hover { background: var(--n50); }
+.nav-item.active {
+  background: var(--primary-light);
+  color: var(--primary);
+  border-left: 2px solid var(--primary);
+  padding-left: 10px;
 }
-.results-bar strong { color:var(--ink); }
+.nav-item.active svg { color: var(--primary); }
 
-/* ─── OVERVIEW ─── */
-.ov-summary {
-  display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:28px;
+/* ─── MAIN CONTENT ─── */
+.main {
+  margin-left: var(--sidebar-w);
+  margin-top: var(--topbar-h);
+  padding: 24px;
+  max-width: calc(1280px + var(--sidebar-w));
+  min-height: calc(100vh - var(--topbar-h));
 }
+
+/* ─── PAGE HEADER ─── */
+.page-header {
+  margin-bottom: 24px;
+}
+.page-title { font-size: 20px; font-weight: 600; color: var(--n900); margin-bottom: 4px; }
+.page-sub   { font-size: 14px; color: var(--n500); }
+
+/* ─── SECTION LABEL ─── */
+.section-label {
+  font-size: 12px; font-weight: 600; color: var(--n500);
+  text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+/* ─── STAT CARDS ─── */
+.stat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 32px; }
 .stat-card {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:var(--r); padding:20px 22px;
-  position:relative; overflow:hidden;
+  background: var(--n0); border: 1px solid var(--n200);
+  border-radius: var(--radius-lg); padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
 }
-.stat-card::before {
-  content:''; position:absolute; top:0; left:0; right:0; height:2px;
-}
-.stat-card.red::before { background:var(--red); }
-.stat-card.blue::before { background:var(--blue); }
-.stat-card.green::before { background:var(--green); }
-.stat-num {
-  font-family:'DM Mono',monospace; font-size:40px; font-weight:500;
-  letter-spacing:-2px; line-height:1; margin-bottom:4px;
-}
-.stat-card.red .stat-num { color:var(--red); }
-.stat-card.blue .stat-num { color:var(--blue); }
-.stat-card.green .stat-num { color:var(--green); }
-.stat-label { font-size:12px; color:var(--ink3); }
-.stat-sub { font-size:11px; color:var(--ink3); margin-top:6px; opacity:.7; }
+.stat-num  { font-size: 36px; font-weight: 700; color: var(--n900); letter-spacing: -1.5px; line-height: 1; margin-bottom: 4px; }
+.stat-label{ font-size: 13px; font-weight: 500; color: var(--n700); }
+.stat-sub  { font-size: 12px; color: var(--n500); margin-top: 4px; }
+.stat-card.accent .stat-num { color: var(--primary); }
+.stat-card.success .stat-num { color: var(--success-text); }
+.stat-card.info .stat-num { color: var(--info-text); }
 
-.section-title {
-  font-size:10px; text-transform:uppercase; letter-spacing:1.5px;
-  color:var(--ink3); font-weight:600; margin-bottom:14px;
-}
-
-.ov-areas {
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; margin-bottom:32px;
+/* ─── AREA CARDS GRID ─── */
+.area-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+  gap: 10px; margin-bottom: 32px;
 }
 .area-card {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:var(--r); padding:16px 18px;
-  cursor:pointer; transition:all .25s;
-  position:relative; overflow:hidden;
+  background: var(--n0); border: 1px solid var(--n200);
+  border-radius: var(--radius-lg); padding: 16px 18px;
+  cursor: pointer; transition: all .2s;
+  box-shadow: var(--shadow-sm);
 }
-.area-card:hover { border-color:var(--border2); transform:translateY(-2px); }
-.area-card::after {
-  content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
-  opacity:.6;
-}
+.area-card:hover { box-shadow: var(--shadow-md); border-color: var(--n300); transform: translateY(-1px); }
 .area-card-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
-.area-icon { font-size:18px; }
-.area-count {
-  font-family:'DM Mono',monospace; font-size:28px; font-weight:500; line-height:1; margin-bottom:3px;
-}
-.area-name { font-size:12px; color:var(--ink2); }
-.area-bar { height:3px; background:var(--bg3); border-radius:100px; margin-top:12px; overflow:hidden; }
-.area-bar-fill { height:100%; border-radius:100px; transition:width .6s cubic-bezier(.4,0,.2,1); }
+.area-icon { font-size:16px; }
+.area-count-small { font-size:11px; color:var(--n500); font-weight:500; }
+.area-count { font-size:28px; font-weight:700; color:var(--n900); line-height:1; margin-bottom:3px; }
+.area-name  { font-size:12px; color:var(--n500); }
+.area-bar   { height:3px; background:var(--n100); border-radius:100px; margin-top:12px; overflow:hidden; }
+.area-bar-fill { height:100%; border-radius:100px; transition:width .5s cubic-bezier(.4,0,.2,1); }
 
-.dir-chart {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:var(--r); padding:22px 24px;
+/* ─── DIR CHART CARD ─── */
+.chart-card {
+  background: var(--n0); border: 1px solid var(--n200);
+  border-radius: var(--radius-lg); padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
 }
 .dir-row {
   display:flex; align-items:center; gap:12px;
-  padding:7px 0; cursor:pointer; border-radius:6px;
-  transition: background .15s; padding-left:8px;
+  padding: 6px 8px; border-radius: var(--radius-sm);
+  cursor:pointer; transition: background .15s;
 }
-.dir-row:hover { background:var(--bg3); }
-.dir-name { font-size:12px; color:var(--ink2); width:210px; flex-shrink:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.dir-track { flex:1; height:6px; background:var(--bg3); border-radius:100px; overflow:hidden; }
-.dir-fill { height:100%; border-radius:100px; background:var(--red); transition:width .5s cubic-bezier(.4,0,.2,1); }
-.dir-num { font-family:'DM Mono',monospace; font-size:12px; color:var(--ink3); width:28px; text-align:right; }
+.dir-row:hover { background: var(--n50); }
+.dir-name { font-size:13px; color:var(--n700); width:220px; flex-shrink:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.dir-track { flex:1; height:6px; background:var(--n100); border-radius:100px; overflow:hidden; }
+.dir-fill  { height:100%; border-radius:100px; background:var(--primary); transition:width .5s; }
+.dir-num   { font-size:12px; font-weight:600; color:var(--n500); width:28px; text-align:right; }
 
-/* ─── CATALOGO ─── */
-.cards-grid {
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:12px;
+/* ─── SEARCH + FILTERS ─── */
+.toolbar { display:flex; gap:10px; margin-bottom:16px; align-items:center; flex-wrap:wrap; }
+.search-wrap { position:relative; flex:1; max-width:400px; }
+.search-wrap svg { position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--n400); pointer-events:none; }
+.search-wrap input {
+  width:100%; height:40px; padding:0 12px 0 38px;
+  border: 1.5px solid var(--n300); border-radius: var(--radius);
+  font-family:'Inter',sans-serif; font-size:14px; color:var(--n900);
+  background:var(--n0); outline:none; transition: border-color .2s;
 }
+.search-wrap input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-light); }
+.search-wrap input::placeholder { color: var(--n400); }
+
+.filters { display:flex; gap:6px; flex-wrap:wrap; }
+.chip {
+  height:28px; padding:0 12px;
+  border: 1px solid var(--n200); border-radius:100px;
+  font-family:'Inter',sans-serif; font-size:12px; font-weight:500;
+  color:var(--n500); background:var(--n0); cursor:pointer;
+  transition:all .15s; display:flex; align-items:center; gap:5px;
+}
+.chip:hover { border-color:var(--n300); color:var(--n700); }
+.chip.active { border-color:var(--primary); background:var(--primary-light); color:var(--primary-text); }
+.chip .dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+
+/* ─── RESULTS BAR ─── */
+.results-bar { font-size:13px; color:var(--n500); margin-bottom:14px; }
+.results-bar strong { color:var(--n900); font-weight:600; }
+
+/* ─── COMPETENCY CARDS ─── */
+.cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:12px; }
 .card {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:var(--r); padding:18px 20px;
+  background:var(--n0); border:1px solid var(--n200);
+  border-radius:var(--radius-lg); padding:18px 20px;
   cursor:pointer; transition:all .2s;
+  box-shadow:var(--shadow-sm);
   position:relative; overflow:hidden;
 }
-.card:hover { border-color:var(--border2); transform:translateY(-1px); box-shadow:0 8px 32px rgba(0,0,0,0.4); }
-.card-accent { position:absolute; left:0; top:0; bottom:0; width:3px; }
-.card-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; padding-left:12px; }
-.card-id { font-family:'DM Mono',monospace; font-size:10px; color:var(--ink3); }
-.badge { font-size:10px; font-weight:600; padding:3px 9px; border-radius:100px; }
-.card-title { font-size:14px; font-weight:600; margin-bottom:8px; padding-left:12px; line-height:1.4; }
-.card-desc {
-  font-size:12px; line-height:1.6; color:var(--ink2);
+.card:hover { box-shadow:var(--shadow-md); border-color:var(--n300); transform:translateY(-1px); }
+.card-accent { position:absolute; left:0; top:0; bottom:0; width:3px; border-radius:var(--radius-lg) 0 0 var(--radius-lg); }
+.card-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; padding-left:12px; }
+.card-id   { font-size:11px; font-weight:600; color:var(--n400); letter-spacing:.3px; }
+.badge {
+  font-size:11px; font-weight:600;
+  padding:3px 8px; border-radius:100px;
+  white-space:nowrap;
+}
+.card-title { font-size:14px; font-weight:600; color:var(--n900); margin-bottom:6px; padding-left:12px; line-height:1.4; }
+.card-desc  {
+  font-size:13px; line-height:1.55; color:var(--n500);
   display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
   padding-left:12px;
 }
-.card-footer {
-  margin-top:14px; padding-left:12px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;
-}
+.card-footer { margin-top:12px; padding-left:12px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
 .pill {
-  font-size:10.5px; color:var(--ink3);
-  background:var(--bg3); padding:3px 10px; border-radius:100px;
+  font-size:11px; font-weight:500; color:var(--n500);
+  background:var(--n100); padding:3px 9px; border-radius:100px;
 }
-.card-note { font-size:10.5px; color:var(--ink3); margin-top:8px; padding-left:12px; font-style:italic; }
+.pill.accent { background:var(--primary-light); color:var(--primary-text); }
+.card-note { font-size:11px; color:var(--n400); margin-top:6px; padding-left:12px; font-style:italic; }
 
-/* ─── DIREZIONI VIEW ─── */
-.dir-cards {
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:12px;
-}
+/* ─── DIREZIONI CARDS ─── */
+.dir-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:12px; }
 .dcard {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:var(--r); padding:20px 22px;
-  cursor:pointer; transition:all .2s;
+  background:var(--n0); border:1px solid var(--n200);
+  border-radius:var(--radius-lg); padding:20px 22px;
+  cursor:pointer; transition:all .2s; box-shadow:var(--shadow-sm);
 }
-.dcard:hover { border-color:var(--border2); transform:translateY(-1px); }
-.dcard-name { font-size:14px; font-weight:600; margin-bottom:4px; }
-.dcard-total { font-size:12px; color:var(--ink3); margin-bottom:16px; }
-.dcard-area-row { display:flex; align-items:center; gap:8px; margin-bottom:7px; }
-.dcard-area-label { font-size:11px; color:var(--ink3); width:120px; flex-shrink:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.dcard-area-track { flex:1; height:5px; background:var(--bg3); border-radius:100px; overflow:hidden; }
-.dcard-area-fill { height:100%; border-radius:100px; }
-.dcard-area-num { font-family:'DM Mono',monospace; font-size:10.5px; color:var(--ink3); width:20px; text-align:right; }
+.dcard:hover { box-shadow:var(--shadow-md); border-color:var(--n300); }
+.dcard-name  { font-size:14px; font-weight:600; color:var(--n900); margin-bottom:3px; }
+.dcard-total { font-size:12px; color:var(--n500); margin-bottom:14px; }
+.dcard-area-row { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+.dcard-area-label { font-size:11px; color:var(--n500); width:110px; flex-shrink:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.dcard-area-track { flex:1; height:4px; background:var(--n100); border-radius:100px; overflow:hidden; }
+.dcard-area-fill  { height:100%; border-radius:100px; }
+.dcard-area-num   { font-size:11px; font-weight:600; color:var(--n500); width:20px; text-align:right; }
 
 /* ─── HEATMAP ─── */
-.hm-wrap { overflow-x:auto; }
+.hm-wrap { overflow-x:auto; background:var(--n0); border:1px solid var(--n200); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); }
 .hm-table { border-collapse:collapse; font-size:11px; min-width:1000px; width:100%; }
 .hm-table th {
-  padding:6px 4px; color:var(--ink3); font-weight:500; font-size:10px;
-  border-bottom:1px solid var(--border);
-  position:sticky; top:0; background:var(--bg2); z-index:10;
-  text-align:center;
+  padding:6px 4px; color:var(--n500); font-weight:600; font-size:10px; text-transform:uppercase; letter-spacing:.5px;
+  border-bottom:1px solid var(--n200); background:var(--n100);
+  position:sticky; top:0; z-index:10; text-align:center;
 }
-.hm-table th:first-child { text-align:left; min-width:180px; padding-right:16px; }
+.hm-table th:first-child { text-align:left; min-width:180px; padding:6px 16px 6px 16px; }
 .hm-table th.rot {
   writing-mode:vertical-lr; transform:rotate(180deg);
-  height:120px; white-space:nowrap; padding:6px 6px;
+  height:130px; white-space:nowrap; padding:8px 6px;
 }
 .hm-table td {
   padding:4px; text-align:center;
-  border-bottom:1px solid rgba(255,255,255,0.03);
+  border-bottom:1px solid var(--n100);
 }
-.hm-table td:first-child { text-align:left; padding-right:16px; cursor:pointer; }
-.hm-table tbody tr:hover td { background:rgba(255,255,255,0.03); }
+.hm-table td:first-child { text-align:left; padding:4px 16px; cursor:pointer; }
+.hm-table tbody tr:hover td { background:var(--n50); }
 .hm-cell {
-  width:24px; height:24px; border-radius:4px;
+  width:24px; height:24px; border-radius:var(--radius-sm);
   display:inline-flex; align-items:center; justify-content:center;
-  font-size:9px; font-weight:700;
+  font-size:10px; font-weight:700;
 }
-.hm-cell.on { background:var(--red); color:#fff; }
-.hm-cell.off { background:rgba(255,255,255,0.04); }
+.hm-cell.on  { background:var(--primary); color:#fff; }
+.hm-cell.off { background:var(--n100); color:var(--n400); }
 .hm-area-row td {
   font-size:10px; text-transform:uppercase; letter-spacing:1px;
-  font-weight:600; padding:14px 4px 4px;
+  font-weight:700; padding:14px 16px 6px;
+  background:var(--n50);
 }
 
 /* ─── DETAIL PANEL ─── */
 .overlay {
   position:fixed; inset:0; z-index:200;
-  background:rgba(0,0,0,0.6);
-  backdrop-filter:blur(6px);
+  background:rgba(0,0,0,0.4);
   opacity:0; pointer-events:none;
   transition:opacity .3s;
 }
 .overlay.open { opacity:1; pointer-events:all; }
-
 .panel {
   position:fixed; right:0; top:0; bottom:0;
-  width:500px; max-width:95vw;
-  background:var(--bg2); z-index:210;
-  border-left:1px solid var(--border);
+  width:520px; max-width:95vw;
+  background:var(--n0); z-index:210;
+  border-left:1px solid var(--n200);
+  box-shadow: var(--shadow-md);
   transform:translateX(100%);
-  transition:transform .35s cubic-bezier(.4,0,.2,1);
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
   overflow-y:auto;
 }
 .panel.open { transform:translateX(0); }
-
-.panel-header { padding:28px 28px 0; position:relative; }
+.panel-header { padding:24px 24px 0; position:relative; }
 .panel-close {
-  position:absolute; right:20px; top:20px;
-  width:32px; height:32px; border:none;
-  background:var(--surface); border-radius:50%;
-  cursor:pointer; color:var(--ink3); font-size:16px;
+  position:absolute; right:16px; top:16px;
+  width:32px; height:32px; border:1px solid var(--n200);
+  background:var(--n0); border-radius:50%;
+  cursor:pointer; color:var(--n500); font-size:16px;
   display:flex; align-items:center; justify-content:center;
-  transition:background .2s; font-family:sans-serif;
+  transition:all .15s; font-family:sans-serif;
 }
-.panel-close:hover { background:var(--surface2); color:var(--ink); }
-.panel-id { font-family:'DM Mono',monospace; font-size:11px; color:var(--ink3); margin-bottom:8px; }
-.panel-badge { display:inline-block; font-size:11px; font-weight:600; padding:4px 12px; border-radius:100px; margin-bottom:14px; }
-.panel-title { font-size:22px; font-weight:700; line-height:1.3; margin-bottom:20px; letter-spacing:-.3px; }
-.panel-desc { font-size:13.5px; line-height:1.7; color:var(--ink2); padding:0 28px; margin-bottom:28px; }
-.panel-section { padding:0 28px; margin-bottom:24px; }
-.panel-section-title { font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:var(--ink3); font-weight:600; margin-bottom:12px; }
-.panel-tags { display:flex; flex-wrap:wrap; gap:6px; }
+.panel-close:hover { background:var(--n100); color:var(--n900); }
+.panel-id    { font-size:11px; font-weight:600; color:var(--n400); letter-spacing:.5px; margin-bottom:8px; }
+.panel-badge { display:inline-block; font-size:11px; font-weight:600; padding:4px 10px; border-radius:100px; margin-bottom:12px; }
+.panel-title { font-size:20px; font-weight:700; color:var(--n900); line-height:1.3; margin-bottom:16px; }
+.panel-desc  { font-size:14px; line-height:1.65; color:var(--n700); padding:0 24px; margin-bottom:24px; }
+.panel-section { padding:0 24px; margin-bottom:20px; }
+.panel-section-title { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:var(--n400); margin-bottom:10px; }
+.panel-tags  { display:flex; flex-wrap:wrap; gap:6px; }
 .panel-tag {
-  font-size:11.5px; font-weight:500;
-  padding:5px 12px; border-radius:100px;
-  border:1px solid var(--border); color:var(--ink3);
-  transition:all .2s;
+  font-size:12px; font-weight:500; padding:5px 12px; border-radius:100px;
+  border:1px solid var(--n200); color:var(--n500); background:var(--n0);
 }
-.panel-tag.on { border-color:var(--red); background:var(--red-dim); color:var(--red); }
+.panel-tag.on { border-color:var(--primary); background:var(--primary-light); color:var(--primary-text); }
 .panel-note {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:var(--r-sm); padding:14px 16px;
-  font-size:12.5px; color:var(--ink2); line-height:1.6;
+  background:var(--n50); border:1px solid var(--n200);
+  border-radius:var(--radius); padding:12px 14px;
+  font-size:13px; color:var(--n700); line-height:1.5;
 }
 
-/* EMPTY */
-.empty { text-align:center; padding:80px 20px; color:var(--ink3); }
-.empty-icon { font-size:36px; margin-bottom:12px; opacity:.4; }
+/* ─── EMPTY STATE ─── */
+.empty { text-align:center; padding:60px 20px; color:var(--n400); }
+.empty-icon { font-size:32px; margin-bottom:10px; opacity:.5; }
+.empty p    { font-size:14px; }
 
-/* ANIMATIONS */
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(10px); }
-  to { opacity:1; transform:translateY(0); }
-}
-.card, .area-card, .dcard, .stat-card {
-  animation: fadeUp .35s ease both;
-}
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.card, .area-card, .dcard, .stat-card { animation: fadeUp .3s ease both; }
 
+/* ─── RESPONSIVE ─── */
 @media (max-width:768px) {
-  .header { padding:0 16px; gap:12px; }
-  .header-kpis { gap:16px; }
-  .kpi-num { font-size:18px; }
-  .main { padding:20px 16px 40px; }
-  .ov-summary { grid-template-columns:1fr; }
+  .sidebar { display:none; }
+  .main { margin-left:0; padding:16px; }
+  .stat-grid { grid-template-columns:1fr; }
   .cards-grid { grid-template-columns:1fr; }
-  .dir-cards { grid-template-columns:1fr; }
+  .dir-cards  { grid-template-columns:1fr; }
+  .topbar-logo { width:auto; border-right:none; }
+  .topbar-kpis { display:none; }
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="header">
-  <div class="logo">
-    <div class="logo-mark">BA</div>
-    <div>
-      <div class="logo-text">Banca di Asti</div>
-      <div class="logo-sub">Modello di Competenze</div>
-    </div>
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-logo">
+    <!-- Skillvue logo SVG inline from DS -->
+    <svg width="90" height="16" viewBox="0 0 159 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M155.533 10.0007C155.533 10.1723 155.533 10.3438 155.519 10.5154V10.5425C155.491 11.1565 155.399 11.7615 155.25 12.344C155.045 13.1747 154.734 13.9648 154.325 14.7008C154.158 15.0078 153.698 14.9762 153.553 14.6556V14.6466C153.512 14.5473 153.465 14.4434 153.414 14.3396C153.379 14.269 153.342 14.201 153.304 14.1317L153.265 14.0597C153.265 14.0544 153.262 14.0506 153.259 14.0475C153.258 14.0453 153.256 14.0435 153.256 14.0416L153.256 14.0415C153.2 13.9422 153.144 13.8429 153.084 13.7481C153.078 13.7347 153.07 13.7213 153.061 13.7088L153.061 13.7088C153.056 13.7003 153.051 13.6922 153.047 13.6849L153.046 13.6835C153.014 13.6343 152.981 13.5851 152.945 13.5314C152.903 13.4682 152.861 13.4095 152.814 13.3463C152.642 13.107 152.457 12.8812 152.257 12.669C152.192 12.5968 152.122 12.5291 152.052 12.4659C152.046 12.4598 152.04 12.4533 152.034 12.4468L152.034 12.4468C152.021 12.4337 152.009 12.4207 151.996 12.4117C151.722 12.1453 151.429 11.9015 151.118 11.6848C150.974 11.5854 150.909 11.4139 150.946 11.2468C151.002 11.0166 151.044 10.7773 151.067 10.538C151.076 10.4567 151.081 10.3709 151.086 10.2851C151.086 10.2355 151.088 10.1869 151.09 10.1384C151.092 10.0899 151.095 10.0413 151.095 9.99165C151.095 9.47694 151.025 8.97578 150.89 8.50622L150.882 8.477C150.866 8.42254 150.85 8.36633 150.83 8.31659C150.546 7.43617 150.049 6.64605 149.394 6.00944C149.199 5.81529 148.985 5.6347 148.762 5.47216L148.752 5.46313C148.529 5.30059 148.297 5.15159 148.046 5.02517C147.688 4.83554 147.316 4.68204 146.921 4.56916C146.782 4.52401 146.647 4.49241 146.508 4.46532C146.108 4.37953 145.694 4.33438 145.271 4.33438C144.848 4.33438 144.435 4.37953 144.035 4.46532C143.896 4.49241 143.756 4.52853 143.621 4.56916C143.217 4.68655 142.827 4.84457 142.464 5.03872C142.39 5.07478 142.32 5.11535 142.251 5.15592L142.25 5.15611C141.851 5.3954 141.479 5.67985 141.149 6.00041C140.968 6.17649 140.796 6.36612 140.642 6.5693C140.238 7.084 139.922 7.67095 139.717 8.30756C139.694 8.37077 139.676 8.43398 139.657 8.49719C139.522 8.96675 139.452 9.46791 139.452 9.98262C139.452 10.082 139.452 10.1768 139.462 10.2761V10.2764C139.462 10.3214 139.462 10.3665 139.471 10.4115V10.4386V10.4928V10.5335V10.5425C139.476 10.5588 139.478 10.5763 139.481 10.5944C139.483 10.6113 139.485 10.6288 139.49 10.6463C139.49 10.6689 139.49 10.6915 139.499 10.7186V10.7186C139.499 10.7276 139.499 10.7366 139.508 10.7457C139.515 10.7807 139.526 10.8181 139.537 10.8545C139.541 10.8696 139.546 10.8846 139.55 10.8992C139.559 10.9488 139.578 10.9985 139.601 11.0482C139.638 11.1385 139.685 11.2242 139.731 11.3055C139.731 11.3145 139.741 11.3281 139.755 11.3371L139.775 11.3675C139.795 11.3963 139.813 11.4231 139.834 11.45C139.861 11.4906 139.894 11.5313 139.931 11.5674L139.931 11.5674C139.95 11.59 139.968 11.6125 139.987 11.6261C139.993 11.6321 139.999 11.6381 140.005 11.6441C140.016 11.6562 140.027 11.6682 140.043 11.6803C140.117 11.757 140.196 11.8202 140.284 11.8744C140.368 11.9286 140.456 11.9782 140.549 12.0234C140.554 12.0234 140.559 12.0257 140.563 12.0279C140.568 12.0302 140.573 12.0324 140.577 12.0324C140.619 12.055 140.661 12.0685 140.703 12.0821L140.703 12.0821C140.898 12.1543 141.116 12.195 141.339 12.195H146.958C148.148 12.195 149.213 12.5607 150.072 13.1702C151.411 14.1138 152.247 15.6444 152.271 17.2788C152.285 18.0193 152.131 18.7823 151.773 19.5228C151.341 20.4348 150.649 21.1798 149.812 21.699C148.975 22.2182 147.99 22.5072 146.958 22.5072H140.573C140.345 22.5072 140.14 22.3808 140.038 22.1821L138.435 19.0171C138.239 18.6333 138.528 18.1818 138.969 18.1818H147.042C147.307 18.1818 147.628 18.0012 147.762 17.7845C148.134 17.2382 147.735 16.5113 147.056 16.5113H140.758C140.447 16.5113 140.14 16.4842 139.843 16.439C137.775 16.1095 136.032 14.6917 135.404 12.7413C135.344 12.5607 135.297 12.3756 135.256 12.1904C135.088 11.4816 135 10.7411 135 9.97811C135 9.64851 135.014 9.32795 135.046 9.0119C135.056 8.88548 135.074 8.76358 135.093 8.64167C135.107 8.52428 135.125 8.40689 135.149 8.28951C135.167 8.18114 135.191 8.06827 135.214 7.95991C135.218 7.94162 135.221 7.92423 135.224 7.90736C135.228 7.88675 135.232 7.86689 135.237 7.84704C135.265 7.72073 135.297 7.59894 135.33 7.47715L135.33 7.47681C135.363 7.34136 135.404 7.21042 135.446 7.07949C135.476 6.98212 135.509 6.88764 135.542 6.79143L135.542 6.79142L135.567 6.71829C135.567 6.70549 135.572 6.69496 135.576 6.68508C135.578 6.68103 135.58 6.67708 135.581 6.67314C135.596 6.63258 135.611 6.59201 135.626 6.55145L135.626 6.55143L135.626 6.55142C135.656 6.47009 135.686 6.38876 135.72 6.30743C135.767 6.19004 135.813 6.08168 135.864 5.97332C135.874 5.94623 135.888 5.91463 135.902 5.88754C135.948 5.77929 136.004 5.67555 136.06 5.57181L136.06 5.57149V5.56246C136.181 5.32316 136.315 5.08838 136.455 4.85812C136.594 4.62786 136.748 4.40211 136.906 4.1899C136.906 4.1899 136.906 4.1899 136.908 4.1879C136.909 4.1866 136.911 4.18444 136.915 4.18087C137.152 3.85579 137.412 3.54877 137.691 3.25079C137.784 3.15146 137.877 3.05664 137.975 2.96183C138.133 2.80832 138.295 2.65932 138.463 2.51484C138.713 2.29813 138.974 2.09495 139.248 1.90081C139.329 1.84361 139.413 1.78642 139.498 1.72922C139.54 1.70063 139.583 1.67204 139.624 1.64345C139.755 1.56218 139.885 1.48091 140.019 1.40416C140.15 1.3274 140.284 1.25065 140.419 1.18292C140.689 1.04296 140.972 0.912026 141.256 0.794637L141.256 0.794606C141.4 0.735922 141.544 0.677239 141.688 0.627582C141.981 0.523738 142.283 0.428923 142.585 0.352169C142.648 0.33696 142.709 0.320328 142.769 0.303872L142.769 0.303869C142.817 0.291013 142.863 0.278264 142.91 0.266384C143.022 0.239294 143.129 0.216719 143.24 0.194144H143.25C143.561 0.13545 143.882 0.0857848 144.207 0.0541799C144.351 0.040635 144.495 0.02709 144.639 0.022575C144.848 0.00903005 145.062 0 145.271 0C145.443 0 145.615 0 145.787 0.013545C145.834 0.013545 145.876 0.013545 145.927 0.022575C145.968 0.0255192 146.008 0.0279834 146.048 0.0304371C146.131 0.0355091 146.214 0.0405362 146.298 0.0496648C146.318 0.0496648 146.336 0.0520755 146.353 0.0544057C146.369 0.0565854 146.385 0.0586948 146.401 0.0586948C146.531 0.0677248 146.661 0.0857846 146.786 0.103845C146.94 0.126419 147.089 0.148994 147.237 0.180599C147.307 0.189629 147.381 0.207689 147.451 0.225749C147.618 0.257354 147.786 0.297989 147.953 0.343139C148.078 0.370228 148.204 0.406348 148.329 0.446983C148.474 0.492133 148.618 0.537283 148.762 0.586948C149.059 0.690792 149.352 0.808182 149.635 0.939116C149.705 0.970721 149.775 1.00233 149.845 1.03845C149.925 1.07653 150.003 1.1739 150.119 1.1739C150.147 1.18893 150.175 1.20397 150.203 1.21901C150.26 1.24912 150.317 1.27923 150.37 1.30934C150.376 1.30934 150.382 1.31336 150.388 1.31737C150.391 1.31938 150.395 1.32138 150.398 1.32289L150.649 1.47188C150.788 1.55315 150.932 1.64345 151.072 1.73827C151.137 1.7789 151.197 1.81954 151.262 1.8692C151.299 1.89622 151.336 1.92274 151.373 1.94926L151.374 1.9494L151.374 1.94942C151.448 2.00261 151.522 2.0558 151.597 2.11301L151.597 2.11313C151.629 2.13567 151.662 2.15822 151.699 2.18977L151.89 2.34328C151.969 2.40648 152.043 2.46969 152.117 2.53742C152.192 2.60063 152.261 2.66384 152.331 2.72705C152.484 2.86701 152.633 3.01149 152.773 3.16049C152.799 3.18982 152.827 3.21915 152.855 3.24879C152.897 3.29213 152.938 3.33613 152.977 3.38172C153.047 3.45396 153.112 3.53071 153.172 3.60295C153.214 3.64699 153.247 3.69102 153.284 3.73821L153.298 3.75646C153.388 3.86332L153.419 3.90094C153.446 3.93496 153.471 3.96898 153.496 4.00212L153.496 4.00229C153.514 4.02627 153.531 4.04979 153.549 4.07251C153.614 4.15378 153.67 4.23054 153.725 4.31181C153.809 4.4292 153.888 4.54207 153.962 4.65946C153.981 4.68203 153.995 4.70461 154.009 4.7317C154.093 4.85359 154.167 4.9845 154.241 5.11541L154.241 5.11547V5.1245C154.325 5.26898 154.399 5.40895 154.474 5.55794C154.553 5.71145 154.622 5.86044 154.687 6.01395C154.739 6.13134 154.79 6.24873 154.841 6.37064L154.883 6.479C154.929 6.59187 154.966 6.70023 155.003 6.81762C155.05 6.9305 155.082 7.03886 155.115 7.15624C155.148 7.25557 155.18 7.35942 155.203 7.46326C155.245 7.61226 155.282 7.75674 155.31 7.91025L155.319 7.94955C155.348 8.08928 155.377 8.22588 155.399 8.36626C155.487 8.89 155.533 9.42728 155.533 9.97811V10.0007ZM148.563 24.2454C148.885 24.2454 149.097 24.5863 148.956 24.8824C148.87 25.0641 148.784 25.2447 148.698 25.4253L148.697 25.4262C148.611 25.6064 148.526 25.7866 148.44 25.9679C147.876 27.1701 146.664 28 145.267 28C143.87 28 142.662 27.1701 142.093 25.9679L142.092 25.964L142.092 25.9638C141.92 25.6018 141.749 25.2399 141.578 24.8824C141.437 24.5863 141.648 24.2454 141.97 24.2454H148.563ZM147.6 8.59681C147.6 9.88547 146.555 10.9301 145.267 10.9301C143.978 10.9301 142.933 9.88547 142.933 8.59681C142.933 7.30814 143.978 6.26347 145.267 6.26347C146.555 6.26347 147.6 7.30814 147.6 8.59681Z" fill="url(#g1)"/>
+      <path d="M13.5635 25.2451C13.8851 25.2453 14.0961 25.5868 13.9551 25.8828C13.7833 26.246 13.6113 26.6046 13.4395 26.9678C12.8753 28.1699 11.6637 29 10.2666 29C8.86954 29 7.66227 28.17 7.09375 26.9678C6.92195 26.6046 6.74993 26.2415 6.57812 25.8828C6.43714 25.5869 6.64819 25.2454 6.96973 25.2451H13.5635ZM10.2715 1C10.4434 1 10.6152 1.00014 10.7871 1.01367C10.8336 1.01367 10.8756 1.01343 10.9268 1.02246C11.0522 1.03148 11.1734 1.03626 11.2988 1.0498C11.3357 1.04987 11.3681 1.05854 11.4004 1.05859C11.5304 1.06761 11.6608 1.08547 11.7861 1.10352C11.9395 1.12609 12.0886 1.14906 12.2373 1.18066C12.307 1.1897 12.3815 1.20753 12.4512 1.22559C12.6185 1.25719 12.7858 1.29763 12.9531 1.34277C13.0785 1.36984 13.2037 1.40667 13.3291 1.44727C13.4732 1.49242 13.6176 1.53725 13.7617 1.58691C14.0592 1.69076 14.3522 1.80852 14.6357 1.93945C14.7053 1.971 14.7751 2.00204 14.8447 2.03809C14.9377 2.08324 15.0308 2.12416 15.1191 2.17383C15.2027 2.21894 15.2912 2.26446 15.3701 2.30957C15.481 2.37286 15.5649 2.42207 15.6484 2.47168C15.7878 2.55291 15.9319 2.64351 16.0713 2.73828C16.1363 2.77885 16.1968 2.81958 16.2617 2.86914C16.3733 2.95041 16.4851 3.0275 16.5967 3.11328C16.6292 3.13583 16.6621 3.15789 16.6992 3.18945L16.8896 3.34375C16.9685 3.40682 17.043 3.46954 17.1172 3.53711C17.1915 3.60024 17.2614 3.66343 17.3311 3.72656C17.4843 3.86645 17.6331 4.01125 17.7725 4.16016C17.8375 4.2324 17.9125 4.30508 17.9775 4.38184C18.047 4.45384 18.1116 4.53052 18.1719 4.60254C18.2184 4.6522 18.256 4.70266 18.2979 4.75684C18.3396 4.80194 18.3818 4.85629 18.4189 4.90137C18.4653 4.95988 18.5071 5.01825 18.5488 5.07227C18.6139 5.1535 18.6698 5.23029 18.7256 5.31152C18.8092 5.42891 18.8885 5.54179 18.9629 5.65918C18.9814 5.68167 18.9949 5.70449 19.0088 5.73145C19.0924 5.85329 19.1669 5.98437 19.2412 6.11523C19.2412 6.11523 19.2412 6.11832 19.2412 6.12402C19.3248 6.26842 19.3993 6.40872 19.4736 6.55762C19.5526 6.71105 19.6225 6.86024 19.6875 7.01367C19.7386 7.13106 19.7897 7.24919 19.8408 7.37109C19.8547 7.40696 19.869 7.44265 19.8828 7.47852C19.9293 7.59136 19.9667 7.70003 20.0039 7.81738C20.0504 7.93026 20.0827 8.03886 20.1152 8.15625C20.1477 8.25543 20.1799 8.3592 20.2031 8.46289C20.245 8.61188 20.2827 8.75666 20.3105 8.91016C20.3431 9.06365 20.3752 9.21272 20.3984 9.36621C20.4867 9.88995 20.5332 10.4277 20.5332 10.9785V11.001C20.5332 11.1724 20.5335 11.3442 20.5195 11.5156V11.542C20.4916 12.1559 20.3987 12.7614 20.25 13.3438C20.0455 14.1745 19.7342 14.9652 19.3252 15.7012C19.1578 16.008 18.6978 15.9758 18.5537 15.6553V15.6465C18.5119 15.5472 18.4651 15.4436 18.4141 15.3398C18.3676 15.2451 18.3167 15.1544 18.2656 15.0596C18.2656 15.0508 18.2564 15.0464 18.2559 15.042C18.2001 14.9427 18.1444 14.8429 18.084 14.748C18.0144 14.635 17.9815 14.5854 17.9443 14.5312C17.9026 14.4682 17.8608 14.4097 17.8145 14.3467C17.6425 14.1074 17.4567 13.8811 17.2568 13.6689C17.1918 13.5967 17.1215 13.529 17.0518 13.4658C16.7219 13.1457 16.4296 12.9013 16.1182 12.6846C15.9742 12.5853 15.9092 12.4141 15.9463 12.2471C16.0021 12.0168 16.0441 11.7774 16.0674 11.5381C16.0767 11.4568 16.0813 11.3709 16.0859 11.2852C16.0859 11.1858 16.0947 11.0905 16.0947 10.9912C16.0947 10.4767 16.0254 9.97528 15.8906 9.50586C15.8721 9.44272 15.8533 9.37502 15.8301 9.31641C15.5466 8.43605 15.0488 7.64634 14.3936 7.00977C14.1984 6.81562 13.9848 6.63422 13.7617 6.47168C13.529 6.30048 13.2967 6.15173 13.0459 6.02539C12.688 5.83576 12.3159 5.68221 11.9209 5.56934C11.7816 5.52424 11.6471 5.49191 11.5078 5.46484C11.1082 5.37907 10.6944 5.334 10.2715 5.33398C9.84863 5.33398 9.43479 5.37909 9.03516 5.46484C8.89573 5.49193 8.75588 5.5287 8.62109 5.56934C8.21687 5.68672 7.82628 5.84497 7.46387 6.03906C7.38963 6.07514 7.31961 6.11568 7.25 6.15625C6.85042 6.3955 6.47833 6.67952 6.14844 7C5.96722 7.17604 5.79592 7.36622 5.64258 7.56934C5.23825 8.08403 4.92227 8.67103 4.71777 9.30762C4.69456 9.37076 4.6758 9.43392 4.65723 9.49707C4.52246 9.96657 4.45217 10.4678 4.45215 10.9824C4.45215 11.0818 4.45262 11.177 4.46191 11.2764V11.542C4.48 11.5736 4.47996 11.6104 4.48926 11.6465C4.48926 11.669 4.48975 11.6917 4.49902 11.7188C4.60156 12.0479 4.63874 12.1382 4.73145 12.3057C4.75488 12.3369 4.83398 12.4502 4.93164 12.5674C5.04297 12.6807 5.28418 12.874 5.54883 13.0234C5.6613 13.082 5.89823 13.1953 6.33984 13.1953H11.958C13.1477 13.1953 14.2125 13.5605 15.0723 14.1699C16.4108 15.1136 17.2473 16.6449 17.2705 18.2793C17.2844 19.0195 17.1311 19.7822 16.7734 20.5225C16.3412 21.4344 15.649 22.18 14.8125 22.6992C13.9759 23.2184 12.9898 23.5068 11.958 23.5068H5.57227C5.34465 23.5067 5.14029 23.3802 5.03809 23.1816L3.43457 20.0176C3.23942 19.6339 3.52743 19.1819 3.96875 19.1816H12.042C12.3069 19.1816 12.6279 19.0009 12.7627 18.7842C13.1341 18.2379 12.7341 17.5117 12.0557 17.5117H5.75879C2.77458 17.1099 1.03173 15.6917 0.404297 13.7412C0.0885739 12.4817 0 11.7414 0 10.9785C0 10.6489 0.0143415 10.3278 0.046875 10.0117C0.148438 9.28906 0.213867 8.95996 0.330078 8.47656C0.404486 8.20996 0.567383 7.71875 0.567383 7.67285C0.720703 7.30762 0.864258 6.97363 0.901367 6.8877V6.5625C1.1804 6.32322 1.31566 6.08865 1.45508 5.8584C1.74725 5.40166 1.90527 5.18945 1.90527 5.18945C2.15202 4.85567 2.41261 4.54889 2.69141 4.25098C2.97461 3.96191 3.46289 3.51465 3.71377 3.29803C3.97395 3.09445 4.24805 2.90039 4.62402 2.64355C4.75415 2.56229 4.88476 2.48105 5.01953 2.4043C5.41895 2.18262 5.68851 2.04265 6.25586 1.79492C6.6875 1.62793 6.98027 1.5241 7.58496 1.35254C7.80332 1.29368 8.12873 1.19434 8.24023 1.19434H8.25C8.56127 1.13567 8.88183 1.0853 9.20703 1.05371C9.63965 1.02246 10.0625 1 10.2715 1ZM10.2666 7.26367C11.5552 7.26367 12.5995 8.30807 12.5996 9.59668C12.5996 10.8853 11.5553 11.9297 10.2666 11.9297C8.97797 11.9296 7.93359 10.8853 7.93359 9.59668C7.93366 8.3081 8.97802 7.26371 10.2666 7.26367Z" fill="url(#g2)"/>
+      <path d="M85.0596 11.4985V18.228C85.0597 18.8546 85.2292 19.3526 85.5625 19.7163C85.896 20.0801 86.3541 20.2599 86.9307 20.2544H87.0381C87.6147 20.26 88.0727 20.0802 88.4062 19.7163C88.7397 19.3525 88.9091 18.8547 88.9092 18.228V11.4985H92.6631V18.2896H92.6582C92.658 21.1108 90.3453 23.3999 87.4961 23.3999H86.4678C83.6186 23.3999 81.3059 21.1108 81.3057 18.2896V11.4985H85.0596ZM99.2783 11.353C100.115 11.353 100.884 11.4815 101.585 11.7446C102.286 12.0077 102.891 12.3884 103.399 12.8921C103.908 13.3959 104.304 14.0175 104.581 14.7563C104.858 15.4953 104.999 16.3465 104.999 17.3149V18.2329H97.1387C97.1567 18.7055 97.2517 19.1202 97.4238 19.4761C97.616 19.8733 97.893 20.1755 98.249 20.3882C98.6051 20.6008 99.0122 20.7075 99.4756 20.7075C99.7977 20.7075 100.092 20.6623 100.363 20.5728C100.629 20.4832 100.861 20.3486 101.048 20.1694C101.234 19.9903 101.382 19.7777 101.483 19.5259L104.92 19.6216C104.779 20.3882 104.468 21.0541 103.993 21.6138C103.513 22.1792 102.891 22.6164 102.116 22.9243C101.342 23.2322 100.443 23.3882 99.4141 23.3882V23.3999C98.1761 23.3999 97.1129 23.1593 96.2197 22.6724C95.3265 22.1909 94.6419 21.4967 94.167 20.6011C93.6921 19.7055 93.4551 18.6305 93.4551 17.3823C93.4551 16.1341 93.6924 15.1261 94.1729 14.2192C94.6534 13.318 95.3266 12.6127 96.1973 12.1089C97.0679 11.6051 98.0968 11.353 99.2783 11.353ZM32.6904 7.41162C33.889 7.41162 34.9636 7.61332 35.8682 8.02197C36.7727 8.43062 37.4623 9.00156 37.9541 9.73486C38.446 10.4682 38.7006 11.3191 38.7119 12.2876H35.0596C35.02 11.7278 34.7938 11.2967 34.3867 10.9888C33.9797 10.6809 33.4087 10.5239 32.6738 10.5239C32.1821 10.5239 31.7695 10.5854 31.4473 10.7085C31.1194 10.8316 30.8757 11.0107 30.7061 11.229C30.5421 11.4529 30.458 11.7057 30.458 11.98C30.4581 12.2876 30.548 12.545 30.7344 12.7632C30.9153 12.9815 31.1817 13.1606 31.5322 13.3062C31.8827 13.4517 32.2897 13.5804 32.7588 13.6812L34.0986 13.9839C34.8731 14.1518 35.557 14.3756 36.1562 14.6499C36.7555 14.9298 37.2592 15.2595 37.6719 15.6401C38.0846 16.0208 38.3953 16.4635 38.6045 16.9673C38.8137 17.4711 38.9209 18.0312 38.9209 18.647C38.9209 19.6376 38.6722 20.4827 38.1748 21.188C37.6773 21.8933 36.9652 22.4369 36.0381 22.812C35.111 23.187 33.9914 23.3774 32.6855 23.3774L32.6904 23.3882C31.3735 23.3881 30.2318 23.192 29.2539 22.8003C28.276 22.4085 27.5124 21.8099 26.9697 21.0151C26.4271 20.2203 26.1442 19.2124 26.1328 18.0034H29.7627C29.7967 18.4958 29.9376 18.9157 30.1807 19.2515C30.4237 19.5873 30.7517 19.8445 31.1699 20.0181C31.5882 20.1916 32.0801 20.2817 32.6396 20.2817C33.1539 20.2817 33.5895 20.2145 33.9512 20.0747C34.313 19.9348 34.5902 19.7438 34.7881 19.4976C34.986 19.2512 35.082 18.9709 35.082 18.6519C35.0819 18.361 34.992 18.1091 34.8057 17.9077C34.6248 17.7006 34.347 17.5215 33.9795 17.3647C33.6121 17.2081 33.137 17.0677 32.5605 16.939L30.9043 16.564C29.5532 16.2561 28.4901 15.7581 27.71 15.064C26.9299 14.3698 26.54 13.4291 26.54 12.2368C26.5401 11.2741 26.8053 10.4342 27.3311 9.70654C27.8568 8.98443 28.5863 8.41917 29.5078 8.01611C30.4349 7.61311 31.4921 7.41167 32.6904 7.41162ZM43.998 15.6802H44.0039L47.3047 11.5034H51.5684L46.8555 17.2407L51.5684 23.1753H46.9375L44.0234 19.4458L43.998 19.4771V23.1753H40.2441V7.61279H43.998V15.6802ZM56.2207 23.1753H52.4668V11.4985H56.2207V23.1753ZM61.7559 23.1753H58.002V7.61279H61.7559V23.1753ZM67.2793 23.1753H63.5254V7.61279H67.2793V23.1753ZM74.29 19.5425H74.4141L76.585 11.4976H80.4912L76.4375 23.1753H72.1357L68.1162 11.4976H72.0732L74.29 19.5425ZM99.3232 14.0229C98.8542 14.023 98.453 14.1295 98.1309 14.3364C97.8087 14.5435 97.5593 14.8346 97.3896 15.2095C97.2714 15.4711 97.195 15.7631 97.1592 16.0884H101.439C101.404 15.7626 101.333 15.473 101.223 15.2212C101.059 14.8405 100.821 14.5491 100.505 14.3364C100.188 14.1294 99.7924 14.0229 99.3232 14.0229ZM54.3379 6.6001C54.8691 6.6001 55.3274 6.77353 55.7061 7.11475C56.0848 7.46179 56.2714 7.88195 56.2715 8.37451C56.2715 8.86714 56.0848 9.29306 55.7061 9.64014C55.3274 9.98696 54.8748 10.1606 54.3379 10.1606C53.8123 10.1605 53.3543 9.9871 52.9756 9.64014C52.5968 9.29306 52.4053 8.87273 52.4053 8.37451C52.4053 7.87636 52.5968 7.46179 52.9756 7.11475C53.3543 6.76779 53.8067 6.60019 54.3379 6.6001Z" fill="#1A1A1A"/>
+      <defs>
+        <linearGradient id="g1" x1="147.95" y1="0.816667" x2="145.325" y2="27.8833" gradientUnits="userSpaceOnUse"><stop stop-color="#FFB74B"/><stop offset="0.487" stop-color="#FF6550"/><stop offset="1" stop-color="#6769FF"/></linearGradient>
+        <linearGradient id="g2" x1="12.95" y1="1.81667" x2="10.325" y2="28.8833" gradientUnits="userSpaceOnUse"><stop stop-color="#FFB74B"/><stop offset="0.487" stop-color="#FF6550"/><stop offset="1" stop-color="#6769FF"/></linearGradient>
+      </defs>
+    </svg>
   </div>
-  <div class="header-divider"></div>
-  <div class="header-kpis">
+  <div class="topbar-kpis">
     <div class="kpi">
-      <div class="kpi-num" id="hdr-comp">197</div>
+      <div class="kpi-num">197</div>
       <div class="kpi-label">Competenze</div>
     </div>
+    <div class="topbar-divider"></div>
     <div class="kpi">
       <div class="kpi-num">7</div>
       <div class="kpi-label">Macro Aree</div>
     </div>
+    <div class="topbar-divider"></div>
     <div class="kpi">
       <div class="kpi-num">13</div>
       <div class="kpi-label">Direzioni</div>
     </div>
+    <div class="topbar-divider"></div>
+    <div style="font-size:13px;color:var(--n500);padding-left:4px;">Banca di Asti · Modello di Competenze</div>
   </div>
-  <nav class="nav" id="nav"></nav>
 </header>
 
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <nav class="sidebar-nav" id="sidebar-nav"></nav>
+</aside>
+
+<!-- MAIN -->
 <main class="main" id="main">
   <div id="toolbar"></div>
   <div id="results-bar"></div>
@@ -424,22 +434,19 @@ body::before {
 </div>
 
 <script>
-// ──────────────────────────────────────────────
-// DATA
-// ──────────────────────────────────────────────
 const DATA = [{"id":1,"nome":"Competenze normative generali","descrizione":"Capacità di svolgere il proprio ruolo secondo quanto indicato dal modello organizzativo, dal Codice Etico, dalle disposizioni normative e operative e dai regolamenti interni stabiliti dalla Banca, al fine di garantire che le attività siano svolte in conformità alle disposizioni legali e regolamentari vigenti.","macro_area":"Competenze normative","note":"Tutta la popolazione aziendale","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":2,"nome":"Competenze normative di settore","descrizione":"Capacità di svolgere il proprio ruolo nel rispetto delle disposizioni legali e regolamentari vigenti per il determinato settore lavorativo di riferimento.","macro_area":"Competenze normative","note":"Tutta la popolazione aziendale","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":3,"nome":"Pacchetto Office","descrizione":"Capacità di padroneggiare i principali strumenti del pacchetto Microsoft Office 365 (Outlook, Word, Excel, Access, PowerPoint).","macro_area":"Competenze informatiche","note":"Tutti tranne i Responsabili di Direzione/Servizio","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":4,"nome":"Analisi dei Dati","descrizione":"Capacità di lavorazione e analisi avanzata dei dati a disposizione della propria unità organizzativa/linea di business (come Power BI, Tableau o SAS).","macro_area":"Competenze informatiche","note":"Tutti tranne i Responsabili di Direzione/Servizio","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":5,"nome":"Linguaggi di Programmazione","descrizione":"Capacità di utilizzo dei diversi linguaggi di programmazione per l'attività lavorativa specializzata prevista per il settore di riferimento (come Python, JavaScript, SQL, C).","macro_area":"Competenze informatiche","note":"Tutti tranne i Responsabili di Direzione/Servizio","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":6,"nome":"Software di settore","descrizione":"Capacità di utilizzare software, gestionali e piattaforme digitali dedicate per l'attività lavorativa specializzata prevista per il proprio settore di riferimento.","macro_area":"Competenze informatiche","note":"Tutti tranne i Responsabili di Direzione/Servizio","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":7,"nome":"Lingua inglese","descrizione":"Capacità di comprendere, comunicare e utilizzare in modo efficace la lingua inglese all'interno del proprio contesto lavorativo.","macro_area":"Competenze linguistiche","note":"Tutti tranne i Responsabili di Direzione/Servizio","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":8,"nome":"Altre lingue straniere","descrizione":"Capacità di comprendere, comunicare e utilizzare in modo efficace una o più lingue straniere diverse dall'inglese all'interno del proprio contesto lavorativo.","macro_area":"Competenze linguistiche","note":"Tutti tranne i Responsabili di Direzione/Servizio","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":9,"nome":"Gestione richieste di assistenza","descrizione":"Capacità di fornire assistenza tecnica agli utenti interni di rete e di sede, sia in forma diretta che indiretta.","macro_area":"Competenze di supporto","note":"Attività svolta dagli Uffici di Sede (No Rete)","direzioni":["Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":10,"nome":"Reportistica e rendicontazione","descrizione":"Capacità di relazionare e rendicontare agli uffici interni dedicati le informazioni tecniche necessarie in merito alle attività svolte.","macro_area":"Competenze di supporto","note":"Tutti tranne i Responsabili di Direzione/Servizio","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":11,"nome":"Monitoraggio processi e procedure","descrizione":"Capacità di effettuare un monitoraggio continuo delle attività aziendali in ottica di individuare anomalie o situazioni di rischio nei processi e procedure, su cui prevedere interventi di miglioramento.","macro_area":"Competenze di ruolo","note":"Per le funzioni in cui è presente una figura o un ufficio che implementa processi di monitoraggio e controllo continuo.","direzioni":["Rete Territoriale","Direzione Commerciale","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Direzione Operativa","Direzione Risorse"]},{"id":12,"nome":"Prevenzione del rischio operativo e reputazionale","descrizione":"Capacità di riconoscere e intervenire sui segnali di rischio operativo e prevenire possibili impatti negativi sull'immagine e reputazione della Banca.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale","Servizio Compliance"]},{"id":13,"nome":"Analisi del merito creditizio","descrizione":"Capacità di analizzare e interpretare bilanci aziendali, dichiarazioni dei redditi e/o altre documentazioni finanziarie al fine di valutare il merito creditizio.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale","Direzione Crediti"]},{"id":14,"nome":"Gestione della contrattualistica","descrizione":"Capacità di leggere, gestire e predisporre bozze di contrattualistica che regolano gli accordi con i clienti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":15,"nome":"Prodotti del credito per privati","descrizione":"Capacità di promuovere, attivare ed erogare prodotti del credito per clienti privati e famiglie sulla base della richiesta raccolta.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":16,"nome":"Prodotti del credito per imprese","descrizione":"Capacità di promuovere, attivare ed erogare prodotti del credito per imprese sulla base della richiesta raccolta.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":17,"nome":"Prodotti finanziari e di investimento","descrizione":"Capacità di promuovere, attivare ed erogare prodotti finanziari e di investimento per clienti sulla base della richiesta raccolta.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":18,"nome":"Prodotti previdenziali e assicurativi","descrizione":"Capacità di promuovere, attivare ed erogare prodotti assicurativi per clienti sulla base della richiesta raccolta.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":19,"nome":"Gestione operativa di filiale","descrizione":"Capacità di effettuare verifiche dei tabulati, monitoraggio bonifici in arrivo e verifica documentazioni dei clienti di filiale.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":20,"nome":"Gestione del contante","descrizione":"Capacità di monitorare e regolare i flussi di cassa in entrata e in uscita legati alle attività operative principali di una determinata filiale.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":21,"nome":"Strategie promozionali","descrizione":"Capacità di valorizzare i contenuti e le caratteristiche distintive dei prodotti e servizi offerti dall'azienda con l'obiettivo di comunicarne efficacemente i vantaggi al pubblico target.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale","Direzione Commerciale"]},{"id":22,"nome":"Gestione portafoglio clienti","descrizione":"Capacità di mantenere e sviluppare relazioni con i clienti già esistenti e potenziali offrendo consulenza continua e assistenza.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":23,"nome":"Analisi potenzialità finanziarie (Imprese)","descrizione":"Capacità di valutare la situazione finanziaria delle imprese ai fini di promuovere azioni commerciali customizzate.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":24,"nome":"Analisi potenzialità patrimoniali (Private)","descrizione":"Capacità di valutare la situazione patrimoniale dei clienti Private ai fini di promuovere azioni commerciali customizzate.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":25,"nome":"Prodotti di tutela patrimoniale (assicurazioni)","descrizione":"Capacità di proporre e fornire supporto rispetto ai prodotti previdenziali e assicurativi maggiormente idonei per la tutela patrimoniale dei clienti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":26,"nome":"Content Creation e Copywriting","descrizione":"Capacità di utilizzare tecniche di copywriting e storytelling all'interno della creazione di contenuti di carattere comunicativo per diverse piattaforme.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale","Servizio Canali Diretti e Comunicazione"]},{"id":27,"nome":"Digital Communication Marketing","descrizione":"Capacità di impostare una campagna commerciale di promozione digitale di prodotti e servizi mediante mailing, CRM/Marketing cloud, pop-up, testi, immagini.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale","Servizio Canali Diretti e Comunicazione"]},{"id":28,"nome":"Social Media Marketing","descrizione":"Capacità di creare e gestire contenuti adatti per le diverse piattaforme social, impiegando strategie per coinvolgere il pubblico target.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":29,"nome":"Analisi competitive di mercato","descrizione":"Capacità di condurre ricerche competitive per comprendere il posizionamento del marchio e identificare opportunità di differenziazione.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale","Servizio Canali Diretti e Comunicazione"]},{"id":30,"nome":"Budgeting e Pricing","descrizione":"Capacità di collaborare nella definizione dei budget e monitoraggio del portafogli in ottica di efficacia ed efficienza commerciale.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":31,"nome":"Marketing B2B","descrizione":"Capacità di gestione del portafoglio e gestione del cliente interno ai fini di decidere se proseguire o meno la relazione sulla base dell'interpretazione dei dati analizzati.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":32,"nome":"Coordinamento Gestori di Relazione","descrizione":"Capacità di coordinamento e collaborazione con i gestori di relazione imprese e gestione quotidiana delle reti specialistiche sales.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":33,"nome":"Sviluppo prodotti assicurativi","descrizione":"Capacità di effettuare una manutenzione tecnica e normativa del portafoglio prodotti assicurativi e capacità di sviluppare nuovi prodotti assicurativi.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":34,"nome":"Gestione pratiche sinistri","descrizione":"Capacità di gestire le pratiche di sinistro, compresa l'apertura e la loro rubricazione, curando i rapporti con la Rete Territoriale e i periti assicurativi.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":35,"nome":"Gestione post-vendita assicurativo","descrizione":"Capacità di utilizzare strumenti operativi per la gestione del post-vendita, come il sottosistema AZ, SO Bankinsurance e altri sottosistemi.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale","Direzione Operativa"]},{"id":36,"nome":"Sviluppo prodotti del credito","descrizione":"Capacità di sviluppare nuovi prodotti commerciali del credito ordinario e agevolato sulla base di una valutazione del mercato.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":37,"nome":"Advisory del credito aziendale","descrizione":"Capacità di implementare nei processi consulenziali competenze mirate di supporto tecnico su temi del credito quali finanza agevolata, passaggi generazionali, mini-bond.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":38,"nome":"Gestione Trade Estero","descrizione":"Capacità di gestione operativa dei prodotti e dei servizi relativi al comparto estero (transazioni import/export, emissione crediti verso le controparti estere).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":39,"nome":"Contrattualistica e Credito Estero","descrizione":"Capacità di gestione di condizioni e contrattualistica legate ai fidi di linee di credito per il territorio italiano e estero.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":40,"nome":"Gestione bonifici esteri","descrizione":"Capacità di gestire l'iter dei bonifici da e verso l'estero, passando attraverso la valutazione specifica di conformità con la normativa.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":41,"nome":"Valutazione idoneità paesi ad alto rischio","descrizione":"Capacità di valutare la congruità delle operazioni e transazioni sulla base di un confronto di documentazioni normative legali in tema di antiriciclaggio.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":42,"nome":"Advisory per la raccolta diretta e amministrata","descrizione":"Capacità di svolgere consulenza tecnica ai fini di spiegare e argomentare i contenuti dei prodotti finanziari, su richiesta dalle filiali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":43,"nome":"Monitoraggio Consulenti/Gestori","descrizione":"Capacità di assegnazione dei portafogli clienti, monitoraggio e valutazione degli obiettivi commerciali dei consulenti/gestori.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":44,"nome":"Campagne commerciali prodotti finanziari","descrizione":"Capacità di comprendere i prodotti finanziari di raccolta da aggiornare a catalogo, sviluppo di soluzioni e definizione di campagne commerciali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":45,"nome":"Monitoraggi e controlli portafogli","descrizione":"Capacità di analizzare e interpretare le allocazioni di patrimonio dei clienti e di consigliare soluzioni migliorative alla luce degli andamenti di mercato.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":46,"nome":"Advisory per la gestione del portafogli clienti","descrizione":"Capacità di svolgere consulenza tecnica ai Gestori Private in tema di analisi dei portafogli finanziari dei clienti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":47,"nome":"Analisi e gestione richieste pricing","descrizione":"Capacità di fornire consulenza ex ante alla filiale per la formalizzazione di eventuali richieste di variazione pricing.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":48,"nome":"Gestione e monitoraggio storni e rimborsi","descrizione":"Capacità di compiere valutazioni qualitative ex-post e monitoraggio degli storni e rimborsi inseriti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":49,"nome":"Definizione e manutenzione deleghe poteri","descrizione":"Capacità di fornire supporto nella definizione e manutenzione delle Deleghe Poteri in materia di Tassi e Condizioni.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":50,"nome":"Advisory finanziario","descrizione":"Capacità di implementare nei processi consulenziali verso la Rete competenze specifiche di supporto tecnico per gli investimenti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":51,"nome":"Asset allocation e gestione rischi portafoglio","descrizione":"Conoscenza delle tassazioni degli strumenti e dei servizi finanziari, delle logiche e delle tecniche di asset allocation.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":52,"nome":"Sviluppo nuovi prodotti finanziari e previdenziali","descrizione":"Capacità di sviluppare nuovi prodotti finanziari di investimento e previdenziali per la clientela.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":53,"nome":"Analisi contesto macroeconomico e mercati finanziari","descrizione":"Capacità di analizzare il contesto macroeconomico, valutando le variabili che influenzano lo scenario e conseguentemente impattano sull'andamento dei mercati finanziari.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":54,"nome":"Negoziazione titoli e collocamenti azionari","descrizione":"Capacità di gestire le aste di compravendita dei titoli di Stato ed i collocamenti azionari ed obbligazionari per conto della clientela.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":55,"nome":"Quotazioni sistemi trading venue","descrizione":"Capacità di rilevare, analizzare e confrontare le quotazioni dei titoli sui sistemi di trading regolamentati.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":56,"nome":"Internalizzatore Sistematico","descrizione":"Capacità di trattare azioni e obbligazioni dei clienti per proprio conto, senza passare attraverso una borsa o altro sistema di trading regolamentato.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":57,"nome":"Gestione Tesoreria","descrizione":"Capacità di gestire efficacemente la liquidità della Banca nel rispetto delle linee di credito disponibili e delle programmazioni aziendali del budget.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":58,"nome":"Funding e investimenti finanziari di proprietà","descrizione":"Capacità di elaborare proposte per gli investimenti del portafoglio di proprietà e gestire le attività di funding sui mercati finanziari e interbancari.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":59,"nome":"Gestione del rischio finanziario","descrizione":"Capacità di gestione delle attività in ottica di allineamento al rischio proposto nel RAS aziendale, di gestione del rischio sul mercato dei cambi.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":60,"nome":"Creazione portafogli modello","descrizione":"Capacità di predisporre portafogli modello per i clienti sulla base di diversi profili di rischio e delle richieste di diversificazione.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":61,"nome":"Valutazione strumenti finanziari","descrizione":"Capacità di valutare e selezionare gli strumenti finanziari (azioni, obbligazioni, ETF, fondi comuni, ecc.) per identificare quelli più adatti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":62,"nome":"Monitoraggio portafogli patrimoniali","descrizione":"Capacità di monitorare i portafogli clienti sulla base degli andamenti di mercato e dei cambiamenti nelle condizioni economiche.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":63,"nome":"Analisi applicabilità normativa","descrizione":"Capacità di identificare e approfondire le norme applicabili alla Banca e al Gruppo rispetto alle attività connesse al proprio ufficio.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Compliance"]},{"id":64,"nome":"Verifica di idoneità ex ante","descrizione":"Capacità di verificare in via preventiva l'idoneità e l'adeguatezza delle procedure interne ed assicurare il rispetto della normativa di riferimento.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Compliance"]},{"id":65,"nome":"Verifica operatività ex post","descrizione":"Capacità di verificare l'efficacia del processo di idoneità e la corretta applicazione delle procedure interne e dell'operatività.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Compliance"]},{"id":66,"nome":"Verifica idoneità e operatività della Rete","descrizione":"Capacità di compiere controlli sulla rete territoriale di filiali per valutare la conformità operativa e individuare profili di rischio.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Compliance","Servizio Revisione Interna"]},{"id":67,"nome":"Assistenza e gestione reclami clienti","descrizione":"Capacità di fornire assistenza specializzata ai clienti in seguito a una segnalazione di disservizio o reclamo.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Compliance"]},{"id":68,"nome":"Gestione delle istanze legali","descrizione":"Capacità di gestire le istanze di risoluzione stragiudiziale delle controversie riguardanti i reclami con la clientela.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Compliance"]},{"id":69,"nome":"Risk audit","descrizione":"Capacità di svolgere attività di analisi e revisione dei processi e delle procedure aziendali con approccio risk-based.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Revisione Interna"]},{"id":70,"nome":"Controllo del rischio interno","descrizione":"Capacità di compiere controlli e monitoraggi dei profili di rischio più significativi della gestione aziendale interna, mediante tecniche di audit dei processi.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Revisione Interna"]},{"id":71,"nome":"Raccolta e integrazione dei rischi","descrizione":"Capacità di raccogliere, integrare e analizzare diverse tipologie di rischio creditizio, finanziario, di tasso, di liquidità o di mercato.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":72,"nome":"Quantificazione e valutazione dei rischi","descrizione":"Capacità di impiegare modelli quantitativi e qualitativi di misurazione per la valutazione dell'impatto dei rischi raccolti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":73,"nome":"Confronto parametri di rischio","descrizione":"Capacità di confrontare i rischi analizzati sulla base di parametri normativi di riferimento (es. ICAAP, ILAAP, RAF).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":74,"nome":"Analisi benchmark modelli di riferimento","descrizione":"Capacità di analizzare e confrontare benchmark di modelli di riferimento interni e/o esterni.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":75,"nome":"Verifica dei modelli interni","descrizione":"Capacità di confrontare vantaggi e limiti dei diversi modelli di credito e selezionare quello potenzialmente più efficace.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":76,"nome":"Convalida modelli interni","descrizione":"Revisionare e convalidare i modelli interni di credito e di rating desk in conformità con la normativa e l'approccio AIRB.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":77,"nome":"Valutazione creditizia clienti","descrizione":"Capacità di raccolta e valutazione delle informazioni creditizie reperibili sui clienti (business information, centrale rischi, utilizzo delle linee).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":78,"nome":"Sviluppo modelli interni","descrizione":"Capacità di selezionare il modello statistico maggiormente idoneo per sviluppare un modello di credito interno in linea con l'approccio AIRB.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":79,"nome":"Rating Attribution","descrizione":"Capacità di applicare diversi modelli di rating per attribuire una classificazione al livello di rischio della clientela.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management","Direzione Crediti"]},{"id":80,"nome":"Rating Desk","descrizione":"Capacità di raccogliere e confrontare, all'interno della rete commerciale, ulteriori informazioni quali-quantitative sulla clientela.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":81,"nome":"Data Quality","descrizione":"Capacità di gestione, controllo e miglioramento della completezza, integrità e qualità dei dati nel rispetto della conformità normativa.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":82,"nome":"Valutazione e controllo rischi operativi e informatici","descrizione":"Capacità di identificare, valutare e controllare rischi legati all'operatività e alle tecnologie informatiche utilizzate.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":83,"nome":"Pratiche di affidamento","descrizione":"Capacità di deliberare le pratiche nell'ambito delle deleghe ricevute o di procedere all'istruttoria delle pratiche di affidamento.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":84,"nome":"Gestione istruttoria concessioni","descrizione":"Capacità di gestione del processo istruttorio legato alla concessione dei mutui, concessione finanziamenti, prestiti e carte di credito e debito.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":85,"nome":"Gestione prodotti di finanziamento a privati","descrizione":"Capacità di gestire l'erogazione dei mutui e dei prodotti di finanziamento al consumo, carte di credito e di debito.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":86,"nome":"Verifica ammissibilità credito agevolato","descrizione":"Capacità di verificare la titolarità di accedere alla garanzia diretta e/o alle agevolazioni dei finanziamenti proposti dalla Rete Commerciale.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":87,"nome":"Attivazione e gestione convenzioni credito agevolato","descrizione":"Capacità di curare l'istruttoria delle operazioni di credito speciale e gestione operativa delle garanzie dirette.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":88,"nome":"Sviluppo di nuove convenzioni e agevolazioni","descrizione":"Capacità di sviluppare nuove convenzioni e agevolazioni del credito, o valutare la variazione di convenzioni già esistenti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":89,"nome":"Emissione crediti di firma","descrizione":"Capacità di provvedere all'emissione dei crediti di firma, curare il perfezionamento dei crediti emessi e assicurare la relativa gestione operativa-contabile.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":90,"nome":"Supporto operativo cartolarizzazioni e contabilità","descrizione":"Capacità gestione delle pratiche che riguardano la cartolarizzazione e supporto alle attività di tesoreria e alla quadratura dei dati contabili.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":91,"nome":"Supporto operativo fidi e garanzie","descrizione":"Capacità di gestione delle pratiche che riguardano i fidi, le linee di credito, la gestione delle garanzie collegate.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":92,"nome":"Supporto operativo pratiche mutui","descrizione":"Capacità di gestione delle pratiche che riguardano i mutui ipotecari post-delibera (stipula, contabilizzazione, attività ongoing).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":93,"nome":"Monitoraggio anomalie del credito","descrizione":"Capacità di monitorare e individuare le posizioni di credito della clientela che presentano situazioni anomale effettive o potenziali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":94,"nome":"Interpretazione del Potenziale Anonimo","descrizione":"Capacità di interpretare i trigger delle posizioni di anomalia e di esprimere un parere motivato sulle pratiche di proposta di affidamento.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":95,"nome":"Risoluzione anomalie del credito","descrizione":"Capacità di prevedere azioni correttive per promuovere il superamento dei momenti di difficoltà delle posizioni debitorie della clientela.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":96,"nome":"Collection Management","descrizione":"Capacità di individuare le posizioni di deterioramento credito da affidare alle società di recupero, di curare i rapporti gestionali con esse.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":97,"nome":"Valutazioni NPE/NPL","descrizione":"Capacità di effettuare valutazioni trimestrali Stage 3 di NPE e Portafogli NPL e sviluppare la strategia gestionale assegnata.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":98,"nome":"Processi di cessione crediti","descrizione":"Capacità di strutturare i processi delle operazioni di cessione: strutturazione gare, contrattualistica closing, post vendita e monitoraggio.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":99,"nome":"Processi completi del credito","descrizione":"Capacità di monitorare tramite DWH del Credito i crediti in bonis e deteriorati al fine di assicurare l'attuazione delle normative aziendali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":100,"nome":"Classificazione status credito","descrizione":"Capacità di classificazione dello status dei crediti anomali o in sofferenza nell'ambito dei poteri previsti dal Regolamento e Policy del Gruppo.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":101,"nome":"Valutazione anomalie creditizie","descrizione":"Capacità di analizzare e valutare i segnali di deterioramento di un credito (early warning signals).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":102,"nome":"Gestione delle ristrutturazioni","descrizione":"Capacità di valutare, attraverso strumenti di workout, piani di rientro che siano sostenibili per il debitore e accettabili per la Banca.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":103,"nome":"Procedure collateral","descrizione":"Capacità di effettuare interrogazioni e interpretazioni di dati catastali e ipocatastali per la gestione delle garanzie collaterali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":104,"nome":"Procedure giuridiche del credito","descrizione":"Capacità di applicare conoscenze giuridiche nell'ambito di perizie, contestazioni dei clienti, cessione dei crediti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":105,"nome":"Azioni di recupero e cessione credito","descrizione":"Capacità di valutare le azioni di recupero credito e implementare azioni di recupero con via stragiudiziale o mediante cessione del credito.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":106,"nome":"Contabilità del credito","descrizione":"Capacità di gestione della contabilità giornaliera relativa a quietanziamenti su singole pratiche, contabilità mensile e trimestrale.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":107,"nome":"Redazione del bilancio bancario","descrizione":"Capacità di predisporre proposte di bilancio d'esercizio, di bilancio consolidato e separato e dei relativi allegati.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":108,"nome":"Contabilità analitica e generale","descrizione":"Capacità di rilevazione e gestione delle scritture contabili, tenuta del libro giornale e del libro inventari.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":109,"nome":"Contabilità fornitori","descrizione":"Capacità di gestire e monitorare tutte le operazioni contabili relative ai fornitori, inclusa la registrazione, la verifica e la riconciliazione delle fatture ricevute.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":110,"nome":"Segnalazioni di Vigilanza","descrizione":"Capacità di assicurare tempestività, precisione e qualità delle segnalazioni, gestendo i rapporti con autorità di vigilanza.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":111,"nome":"Adempimenti fiscali","descrizione":"Capacità di predisporre le dichiarazioni fiscali relative ad un istituto di credito.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":112,"nome":"Gestione contenzioso fiscale","descrizione":"Capacità di gestione extragiudiziale di controversie legali e contenziosi fiscali (es. liquidazione imposte di registro).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":113,"nome":"Raccolta dati fiscali","descrizione":"Capacità di raccogliere, integrare e effettuare controlli sulle informazioni di carattere fiscale legate a diverse aree aziendali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":114,"nome":"Business analytics","descrizione":"Capacità di raccogliere, integrare e analizzare dati macroeconomici e interni mediante strumenti di business intelligence.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":115,"nome":"Forecasting e pianificazione","descrizione":"Capacità di formulare prospetti economici e finanziari di breve, medio e lungo termine attraverso l'analisi di scenari.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":116,"nome":"Definizione budget e piano strategico","descrizione":"Capacità di elaborare, monitorare e aggiornare budget e piani strategici in coerenza con gli obiettivi aziendali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":117,"nome":"Monitoraggio e aggiornamento centri di profitto","descrizione":"Capacità di monitorare l'andamento economico-finanziario dei centri di profitto e di costo, aggiornando i portafogli.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":118,"nome":"Clusterizzazione dati economico-finanziari","descrizione":"Capacità di raggruppare e analizzare dati economico-finanziari utilizzando metodi di clusterizzazione.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":119,"nome":"Analisi e gestione variances","descrizione":"Capacità di analizzare gli scostamenti (variances) tra budget e risultati effettivi in relazione ai KPI aziendali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":120,"nome":"Stesura bilancio di sostenibilità (ex DNF)","descrizione":"Capacità di predisporre proposte di bilancio secondo l'informativa finanziaria e di sostenibilità.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":121,"nome":"Controllo di bilancio","descrizione":"Capacità di eseguire il controllo dei dati finanziari in conformità ai principi contabili internazionali (IFRS/IAS).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":122,"nome":"Modello di controllo interno","descrizione":"Capacità di progettare e implementare un modello di controllo interno efficace, allineato alle normative di governance aziendale.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":123,"nome":"Pre-audit di bilancio","descrizione":"Capacità di raccogliere dati e informazioni dalle fonti che contribuiscono alla realizzazione del bilancio per verificare la presenza di eventuali anomalie.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":124,"nome":"Segreteria di Direzione","descrizione":"Capacità di raccogliere e organizzare le informazioni di Direzione, gestire la pianificazione delle attività in agenda.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Affari Legali e Societari"]},{"id":125,"nome":"Stesura e aggiornamento regolamentazione interna","descrizione":"Capacità di redigere e aggiornare testi di Regolamenti, Policy e Disposizioni Normative e Operative.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Affari Legali e Societari"]},{"id":126,"nome":"Supporto Organi Sociali","descrizione":"Capacità di fornire supporto organizzativo agli Organi Sociali, garantendo la corretta gestione e tenuta dei libri sociali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Affari Legali e Societari"]},{"id":127,"nome":"Gestione vertenze civili","descrizione":"Capacità di gestire e monitorare vertenze giudiziali e stragiudiziali, inclusi i contenziosi giuslavoristici.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Affari Legali e Societari"]},{"id":128,"nome":"Gestione vertenze penali","descrizione":"Capacità di gestire e monitorare vertenze e contenziosi penali, coordinandosi con le autorità competenti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Affari Legali e Societari"]},{"id":129,"nome":"Adempimenti GDPR","descrizione":"Capacità di gestire gli adempimenti previsti dal GDPR, garantendo conformità normativa sulla protezione dei dati personali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Affari Legali e Societari"]},{"id":130,"nome":"Predisposizione e aggiornamento contratti bancari","descrizione":"Capacità di predisporre, aggiornare e gestire contratti bancari destinati alla clientela.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Affari Legali e Societari"]},{"id":131,"nome":"People Diversity, Equity & Inclusion","descrizione":"Capacità di adattare il linguaggio e le azioni rivolte alle persone interne ed esterne all'organizzazione nel rispetto dei principi di equità, diversità e inclusione.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione","Direzione Risorse"]},{"id":132,"nome":"Comunicazione Istituzionale e Brand Identity","descrizione":"Capacità di definire e garantire il rispetto degli standard di comunicazione fissati per la Corporate Identity.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":133,"nome":"Gestione eventi di comunicazione","descrizione":"Capacità di pianificare, organizzare e coordinare eventi di comunicazione interna ed esterna.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":134,"nome":"Relazioni Pubbliche e con i Media","descrizione":"Capacità di curare e coordinare le relazioni con gli organi di informazione, agenzie di comunicazione esterne e portali internet.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":135,"nome":"Gestione e sviluppo dei servizi telematici","descrizione":"Capacità di gestire operativamente i canali diretti e digitali di accesso bancario (internet banking, remote banking, mobile banking).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":136,"nome":"Gestione operatività carte","descrizione":"Capacità di gestire operativamente carte di credito, debito e prepagate su circuiti nazionali e internazionali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":137,"nome":"Sistemi di pagamento digitali e alternativi","descrizione":"Capacità di integrare ai sistemi di pagamento tradizionali la gestione di sistemi di pagamento alternativi (Apple Pay, Google Pay, Satispay).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":138,"nome":"Servizi di incasso e POS","descrizione":"Capacità di gestione dei meccanismi che regolano gli incassi mediante il servizio di POS fisici e virtuali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":139,"nome":"Autenticazione e Firma digitale","descrizione":"Capacità di gestire, monitorare e garantire la conformità normativa nei processi di autenticazione e firma digitale.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":140,"nome":"Interfaccia cliente da remoto","descrizione":"Capacità di identificare e proporre prodotti e soluzioni di design per processi di front-end lato cliente e gestione della clientela da remoto.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":141,"nome":"Funzioni FEU di assistenza","descrizione":"Capacità di utilizzare le funzioni FEU per la gestione tempestiva e risolutiva delle richieste di assistenza clienti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":142,"nome":"Assistenza clienti (Contact Center)","descrizione":"Capacità di fornire assistenza specializzata ai clienti sulle piattaforme di Internet e Mobile Banking.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":143,"nome":"Gestione tesoreria enti","descrizione":"Capacità di gestire la tesoreria e la cassa per gli Enti Pubblici clienti della Banca.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":144,"nome":"Partecipazione gare","descrizione":"Capacità di analizzare bandi di gara per l'accreditamento della tesoreria degli Enti Pubblici.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":145,"nome":"Riconciliazione Liquidità Enti","descrizione":"Capacità di effettuare procedure di riconciliazione bancaria per verificare e allineare i movimenti di tesoreria.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":146,"nome":"Riconciliazione per Controparti","descrizione":"Capacità di effettuare procedure di riconciliazione bancaria per controparti nazionali ed estere.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":147,"nome":"Back office bancario","descrizione":"Capacità di fornire supporto operativo alle filiali per le attività giornaliere e richieste specifiche.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":148,"nome":"Gestione Helpdesk operativo","descrizione":"Capacità di fornire supporto alla rete su processi e procedure informatiche di sportello tramite Helpdesk operativo.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa","Direzione Risorse"]},{"id":149,"nome":"Gestione operativa dei prodotti assicurativi","descrizione":"Capacità di analizzare e gestire l'operatività legata ai prodotti assicurativi (polizze danni, vita, IBIPs, FPA).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":150,"nome":"Gestione operativa strumenti finanziari","descrizione":"Capacità di analizzare e gestire l'operatività degli strumenti finanziari, comprendendone le caratteristiche e il funzionamento.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":151,"nome":"Gestione operativa contabilità e bilancio","descrizione":"Capacità di gestire scritture contabili e predisporre bilanci relativi al reparto titoli e operazioni finanziarie.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":152,"nome":"Controllo periodico anagrafica","descrizione":"Capacità di svolgere attività periodiche di controllo sulla base dei dati anagrafici.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":153,"nome":"Segnalazioni Centrale Rischi","descrizione":"Capacità di gestire ed effettuare segnalazioni di vigilanza alla Centrale dei Rischi di Banca d'Italia.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":154,"nome":"Gestione variazioni anagrafiche","descrizione":"Capacità di gestire quotidianamente gli scambi di messaggi con Banca d'Italia relativi ad aggiornamenti anagrafici.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":155,"nome":"Anagrafe dei rapporti finanziari","descrizione":"Capacità di predisporre e inviare rapporti finanziari mensili dei clienti all'Agenzia delle Entrate tramite l'Applicativo ARF.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":156,"nome":"Aggiornamento registro Parti Correlate","descrizione":"Inserimento e aggiornamento di dati dei Soci ricevuti dall'Ufficio Segreteria con i dati delle correlazioni e familiarità.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":157,"nome":"Gestione Pratiche e Condizioni GUC","descrizione":"Capacità di aggiornare e modificare le pratiche GUC per la gestione delle condizioni economiche dei servizi offerti dalla Banca.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":158,"nome":"Trasparenza informativa","descrizione":"Capacità di produrre e aggiornare documentazioni pre-contrattuali, contrattuali e periodiche obbligatorie per i prodotti erogati ai clienti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":159,"nome":"Conformità archiviazione documentale","descrizione":"Capacità di verificare la conformità delle condizioni contrattuali ai fogli informativi.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":160,"nome":"Analisi e controllo del rischio di usura","descrizione":"Capacità di analizzare e identificare potenziali situazioni di rischio di usura a ogni liquidazione.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":161,"nome":"Gestione dei rapporti sindacali","descrizione":"Capacità di gestire i rapporti sindacali attraverso la negoziazione di contratti collettivi e individuali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":162,"nome":"Contabilità e paghe","descrizione":"Capacità di elaborare buste paga e gestire le voci retributive, deduzioni fiscali e previdenziali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":163,"nome":"Adempimenti amministrativi","descrizione":"Capacità di rispettare gli adempimenti legati alla compilazione del modello F24, la Certificazione Unica (CU), il modello 7.70.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":164,"nome":"Contenzioso giuslavoristico","descrizione":"Capacità di gestire controversie tra datore di lavoro e dipendenti, incluse questioni legate a patti di non concorrenza.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":165,"nome":"Reclutamento e selezione","descrizione":"Capacità di gestire l'intero processo di reclutamento e selezione, dalla definizione del fabbisogno alla pubblicazione delle opportunità.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":166,"nome":"Formazione e Sviluppo","descrizione":"Capacità di analizzare i bisogni formativi e le aree di sviluppo aziendale, progettando interventi formativi e pianificando obiettivi.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":167,"nome":"Valutazione del personale","descrizione":"Capacità di effettuare la mappatura delle competenze, la valutazione delle performance aziendali e l'analisi delle attitudini.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":168,"nome":"People Strategy","descrizione":"Capacità di progettare e attuare strategie di attraction, retention ed employer branding.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":169,"nome":"Ottimizzazione dei processi aziendali","descrizione":"Capacità di analizzare, riprogettare e implementare soluzioni metodologiche per ottimizzare i processi di lavoro.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":170,"nome":"Project Management tools","descrizione":"Capacità di utilizzare metodologie e strumenti di Project Management per pianificare, monitorare e gestire progetti complessi.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":171,"nome":"Coordinamento attività progettuali","descrizione":"Capacità di organizzare e coordinare tutti gli aspetti operativi di un progetto.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":172,"nome":"Contabilità immobiliare","descrizione":"Capacità di gestire gli aspetti contabili del patrimonio immobiliare, inclusi affitti, costi di manutenzione e spese gestionali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":173,"nome":"Property e facility","descrizione":"Capacità di pianificare e ottimizzare l'utilizzo degli spazi aziendali, gestendo le operazioni legate al funzionamento quotidiano degli immobili.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":174,"nome":"Valutazione immobiliare","descrizione":"Capacità di stimare il valore commerciale e tecnico degli immobili utilizzando dati di mercato e catastali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":175,"nome":"Safety & Security","descrizione":"Capacità di redigere i Documenti di Valutazione del Rischio (DVR) e garantire la sicurezza sul lavoro ai sensi del D.Lgs. 81/08.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":176,"nome":"Documentazione immobiliare","descrizione":"Capacità di redigere, aggiornare e archiviare documentazione tecnica e amministrativa relativa agli immobili.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":177,"nome":"Sviluppo Software","descrizione":"Capacità di progettare, sviluppare e mantenere applicazioni e soluzioni software a supporto delle esigenze aziendali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":178,"nome":"Governance IT","descrizione":"Capacità di definire i processi di gestione e governo di ICT in riferimento alla specifica normativa esterna.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":179,"nome":"Sicurezza informatica","descrizione":"Capacità di implementare misure preventive, identificare vulnerabilità e gestire incidenti di sicurezza.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":180,"nome":"Gestione sistemi informatici","descrizione":"Capacità di gestione delle infrastrutture ICT (Data Center, storage, network), desktop management, servizi di base.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":181,"nome":"Data engineering","descrizione":"Capacità di mettere a disposizione delle unità organizzative i dati presenti sul sistema informativo; capacità di analisi, creazione datamart.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":182,"nome":"Analisi e ricerca ESG","descrizione":"Capacità di compiere analisi di benchmark per confrontare le performance ESG aziendali con quelle di altre aziende di settore.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":183,"nome":"Pianificazione aziendale ESG","descrizione":"Capacità di identificare gli obiettivi generali dell'azienda da inserire in un piano di sostenibilità aziendale.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":184,"nome":"Integrità","descrizione":"Capacità di comportarsi in modo etico e trasparente, rispettando le regole, i valori aziendali e le responsabilità assegnate.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":185,"nome":"Creatività","descrizione":"Capacità di proporre idee originali per migliorare processi, prodotti o servizi, adattandosi rapidamente ai cambiamenti.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":186,"nome":"Abilità Logiche ed Analitiche","descrizione":"Capacità di analizzare problemi complessi, identificare relazioni causa-effetto e formulare soluzioni pratiche basate su dati e fatti.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":187,"nome":"Capacità Relazionali","descrizione":"Capacità di costruire rapporti positivi e collaborativi con colleghi, clienti o partner esterni.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":188,"nome":"Resilienza","descrizione":"Capacità di mantenere l'equilibrio emotivo e operativo anche sotto pressione.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":189,"nome":"Persuasività","descrizione":"Capacità di influenzare positivamente gli altri attraverso una comunicazione chiara e convincente.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":190,"nome":"Pianificazione e Organizzazione","descrizione":"Capacità di stabilire priorità, pianificare attività e gestire il tempo in modo efficace per rispettare scadenze e obiettivi.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":191,"nome":"Orientamento alla Qualità","descrizione":"Capacità di garantire elevati standard qualitativi nel proprio lavoro, prestando attenzione ai dettagli.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":192,"nome":"Energia e Motivazione","descrizione":"Capacità di mantenere alti livelli di entusiasmo e impegno, affrontando sfide e raggiungendo obiettivi con un atteggiamento proattivo.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":193,"nome":"Visione innovativa","descrizione":"Capacità di proporre visioni innovative e trasformative per guidare l'organizzazione verso nuovi obiettivi.","macro_area":"Competenze manageriali","note":"Solo i Responsabili di Direzione/Servizio.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":194,"nome":"Pianificazione strategica","descrizione":"Capacità di analizzare contesti complessi, comprendere trend di mercato e definire strategie a lungo termine.","macro_area":"Competenze manageriali","note":"Solo i Responsabili di Direzione/Servizio.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":195,"nome":"Implementazione operativa","descrizione":"Capacità di tradurre piani strategici in risultati concreti, garantendo l'esecuzione di progetti rispettando tempi e risorse.","macro_area":"Competenze manageriali","note":"Solo i Responsabili di Direzione/Servizio.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":196,"nome":"Miglioramento continuo","descrizione":"Capacità di perfezionare processi, prodotti e servizi, promuovendo il miglioramento continuo.","macro_area":"Competenze manageriali","note":"Solo i Responsabili di Direzione/Servizio.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":197,"nome":"Coesione di team","descrizione":"Capacità di creare team coesi, favorire la collaborazione e gestire conflitti in modo costruttivo.","macro_area":"Competenze manageriali","note":"Per i Responsabili di Direzione/Servizio e i Responsabili di Ufficio.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]}];
 
 const DIREZIONI = ["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"];
 const MACRO_AREE = ["Competenze di ruolo","Competenze di supporto","Competenze informatiche","Competenze linguistiche","Competenze manageriali","Competenze normative","Competenze soft"];
 
-const COLORS = {
-  "Competenze normative":    { accent:"#E85D75", dim:"rgba(232,93,117,0.15)" },
-  "Competenze informatiche": { accent:"#5B8AF5", dim:"rgba(91,138,245,0.15)" },
-  "Competenze linguistiche": { accent:"#4ECBA4", dim:"rgba(78,203,164,0.15)" },
-  "Competenze di supporto":  { accent:"#F5A623", dim:"rgba(245,166,35,0.15)" },
-  "Competenze di ruolo":     { accent:"#A78BFA", dim:"rgba(167,139,250,0.15)" },
-  "Competenze soft":         { accent:"#22D3EE", dim:"rgba(34,211,238,0.15)" },
-  "Competenze manageriali":  { accent:"#F472B6", dim:"rgba(244,114,182,0.15)" },
+const AREA_STYLE = {
+  "Competenze normative":    { fg:"var(--c-normative)",    bg:"var(--c-normative-bg)" },
+  "Competenze informatiche": { fg:"var(--c-informatiche)", bg:"var(--c-informatiche-bg)" },
+  "Competenze linguistiche": { fg:"var(--c-linguistiche)", bg:"var(--c-linguistiche-bg)" },
+  "Competenze di supporto":  { fg:"var(--c-supporto)",    bg:"var(--c-supporto-bg)" },
+  "Competenze di ruolo":     { fg:"var(--c-ruolo)",       bg:"var(--c-ruolo-bg)" },
+  "Competenze soft":         { fg:"var(--c-soft)",        bg:"var(--c-soft-bg)" },
+  "Competenze manageriali":  { fg:"var(--c-manageriali)", bg:"var(--c-manageriali-bg)" },
 };
 const ICONS = {
   "Competenze normative":"⚖️","Competenze informatiche":"💻",
@@ -447,25 +454,34 @@ const ICONS = {
   "Competenze di ruolo":"🎯","Competenze soft":"💡","Competenze manageriali":"📊"
 };
 
-// ── STATE ──
-let view = 'overview', search = '', filterArea = null, filterDir = null;
+// NAV ICONS (inline SVG lucide-style)
+const NAV_ITEMS = [
+  { id:'overview',  label:'Overview',   icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>' },
+  { id:'catalogo',  label:'Catalogo',   icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>' },
+  { id:'direzioni', label:'Direzioni',  icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>' },
+  { id:'heatmap',   label:'Matrice',    icon:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>' },
+];
 
-// ── INIT ──
-buildNav();
+let view='overview', search='', filterArea=null, filterDir=null;
+
+// INIT
+buildSidebar();
 render();
 document.getElementById('overlay').addEventListener('click', closePanel);
 document.addEventListener('keydown', e => { if(e.key==='Escape') closePanel(); });
 
-function buildNav() {
-  const tabs = [{id:'overview',l:'Overview'},{id:'catalogo',l:'Catalogo'},{id:'direzioni',l:'Direzioni'},{id:'heatmap',l:'Matrice'}];
-  document.getElementById('nav').innerHTML = tabs.map(t =>
-    `<button class="nav-btn ${t.id===view?'active':''}" onclick="switchView('${t.id}')">${t.l}</button>`
-  ).join('');
+function buildSidebar() {
+  document.getElementById('sidebar-nav').innerHTML = NAV_ITEMS.map(item => `
+    <button class="nav-item ${item.id===view?'active':''}" onclick="switchView('${item.id}')">
+      ${item.icon}
+      ${item.label}
+    </button>
+  `).join('');
 }
 
 function switchView(v) {
   view=v; search=''; filterArea=null; filterDir=null;
-  buildNav(); render();
+  buildSidebar(); render();
 }
 
 function render() {
@@ -483,55 +499,59 @@ function render() {
 
 // ── OVERVIEW ──
 function renderOverview(el) {
-  const cnt = {}; MACRO_AREE.forEach(a=>cnt[a]=0); DATA.forEach(d=>cnt[d.macro_area]++);
-  const dirCnt = {}; DIREZIONI.forEach(d=>dirCnt[d]=0);
+  const cnt={}; MACRO_AREE.forEach(a=>cnt[a]=0); DATA.forEach(d=>cnt[d.macro_area]++);
+  const dirCnt={}; DIREZIONI.forEach(d=>dirCnt[d]=0);
   DATA.forEach(d=>d.direzioni.forEach(dr=>dirCnt[dr]++));
-  const maxD = Math.max(...Object.values(dirCnt));
-  const trasv = DATA.filter(d=>d.direzioni.length===13).length;
-  const spec = DATA.filter(d=>d.direzioni.length<=2).length;
-  const avg = (DATA.reduce((s,d)=>s+d.direzioni.length,0)/DATA.length).toFixed(1);
-  const maxArea = Math.max(...Object.values(cnt));
+  const maxD=Math.max(...Object.values(dirCnt));
+  const trasv=DATA.filter(d=>d.direzioni.length===13).length;
+  const spec=DATA.filter(d=>d.direzioni.length<=2).length;
+  const avg=(DATA.reduce((s,d)=>s+d.direzioni.length,0)/DATA.length).toFixed(1);
+  const maxArea=Math.max(...Object.values(cnt));
 
-  el.innerHTML = `
-    <div class="ov-summary">
-      <div class="stat-card red" style="animation-delay:0ms">
+  el.innerHTML=`
+    <div class="page-header">
+      <div class="page-title">Overview</div>
+      <div class="page-sub">Distribuzione delle competenze per macro area e direzione</div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card accent" style="animation-delay:0ms">
         <div class="stat-num">${trasv}</div>
         <div class="stat-label">Competenze trasversali</div>
         <div class="stat-sub">presenti in tutte le 13 direzioni</div>
       </div>
-      <div class="stat-card blue" style="animation-delay:60ms">
+      <div class="stat-card success" style="animation-delay:60ms">
         <div class="stat-num">${spec}</div>
         <div class="stat-label">Competenze specifiche</div>
         <div class="stat-sub">assegnate a ≤ 2 direzioni</div>
       </div>
-      <div class="stat-card green" style="animation-delay:120ms">
+      <div class="stat-card info" style="animation-delay:120ms">
         <div class="stat-num">${avg}</div>
         <div class="stat-label">Media direzioni / competenza</div>
         <div class="stat-sub">copertura media</div>
       </div>
     </div>
 
-    <div class="section-title">Distribuzione per macro area</div>
-    <div class="ov-areas">
-      ${MACRO_AREE.map((a,i) => {
-        const c = COLORS[a];
-        const pct = (cnt[a]/maxArea*100).toFixed(0);
+    <div class="section-label">Distribuzione per macro area</div>
+    <div class="area-grid">
+      ${MACRO_AREE.map((a,i)=>{
+        const s=AREA_STYLE[a];
+        const pct=(cnt[a]/maxArea*100).toFixed(0);
         return `<div class="area-card" onclick="goArea('${a}')" style="animation-delay:${i*40}ms">
           <div class="area-card-top">
-            <div class="area-icon">${ICONS[a]}</div>
-            <span style="font-size:10px;color:var(--ink3);font-family:'DM Mono',monospace">${cnt[a]} comp.</span>
+            <span style="font-size:15px">${ICONS[a]}</span>
+            <span class="area-count-small">${cnt[a]} comp.</span>
           </div>
-          <div class="area-count" style="color:${c.accent}">${cnt[a]}</div>
+          <div class="area-count" style="color:${s.fg}">${cnt[a]}</div>
           <div class="area-name">${a}</div>
-          <div class="area-bar"><div class="area-bar-fill" style="width:${pct}%;background:${c.accent}"></div></div>
+          <div class="area-bar"><div class="area-bar-fill" style="width:${pct}%;background:${s.fg}"></div></div>
         </div>`;
       }).join('')}
     </div>
 
-    <div class="section-title">Competenze per direzione</div>
-    <div class="dir-chart">
-      ${DIREZIONI.map((d,i) => `
-        <div class="dir-row" onclick="goDir('${d}')" style="animation-delay:${i*30}ms">
+    <div class="section-label">Competenze per direzione</div>
+    <div class="chart-card">
+      ${DIREZIONI.map((d,i)=>`
+        <div class="dir-row" onclick="goDir('${d}')" style="animation-delay:${i*25}ms">
           <div class="dir-name" title="${d}">${d}</div>
           <div class="dir-track"><div class="dir-fill" style="width:${(dirCnt[d]/maxD*100).toFixed(0)}%"></div></div>
           <div class="dir-num">${dirCnt[d]}</div>
@@ -541,41 +561,41 @@ function renderOverview(el) {
   `;
 }
 
-function goArea(a) { view='catalogo'; filterArea=a; filterDir=null; search=''; buildNav(); render(); }
-function goDir(d)  { view='catalogo'; filterDir=d; filterArea=null; search=''; buildNav(); render(); }
+function goArea(a){view='catalogo';filterArea=a;filterDir=null;search='';buildSidebar();render();}
+function goDir(d){view='catalogo';filterDir=d;filterArea=null;search='';buildSidebar();render();}
 
 // ── CATALOGO ──
-function renderCatalogo(toolbar, rb, content) {
-  toolbar.innerHTML = `
+function renderCatalogo(toolbar,rb,content){
+  toolbar.innerHTML=`
     <div style="margin-bottom:14px">
       <div class="toolbar">
         <div class="search-wrap">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input id="si" type="text" placeholder="Cerca competenza..." value="${search}">
+          <input id="si" type="text" placeholder="Cerca competenza per nome o descrizione..." value="${search}">
         </div>
       </div>
       <div class="filters">
         ${MACRO_AREE.map(a=>{
-          const c=COLORS[a];
-          return `<span class="chip ${filterArea===a?'active':''}" onclick="toggleArea('${a}')">
-            <span class="dot" style="background:${c.accent}"></span>${a.replace('Competenze ','')}
+          const s=AREA_STYLE[a];
+          return `<span class="chip ${filterArea===a?'active':''}" onclick="toggleArea('${a}')" style="${filterArea===a?`border-color:${s.fg};background:${s.bg};color:${s.fg}`:''}">
+            <span class="dot" style="background:${s.fg}"></span>${a.replace('Competenze ','')}
           </span>`;
         }).join('')}
       </div>
-      <div class="filters" style="margin-top:6px">
+      <div class="filters" style="margin-top:8px">
         ${DIREZIONI.map(d=>`<span class="chip ${filterDir===d?'active':''}" onclick="toggleDir('${d}')">${d}</span>`).join('')}
       </div>
     </div>
   `;
-  document.getElementById('si').addEventListener('input', e=>{search=e.target.value; updateCards(rb,content);});
-  updateCards(rb, content);
+  document.getElementById('si').addEventListener('input',e=>{search=e.target.value;updateCards(rb,content);});
+  updateCards(rb,content);
 }
 
-function toggleArea(a){filterArea=filterArea===a?null:a; render();}
-function toggleDir(d){filterDir=filterDir===d?null:d; render();}
+function toggleArea(a){filterArea=filterArea===a?null:a;render();}
+function toggleDir(d){filterDir=filterDir===d?null:d;render();}
 
-function updateCards(rb, content) {
-  let list = DATA;
+function updateCards(rb,content){
+  let list=DATA;
   if(filterArea) list=list.filter(d=>d.macro_area===filterArea);
   if(filterDir)  list=list.filter(d=>d.direzioni.includes(filterDir));
   if(search.trim()){const q=search.toLowerCase();list=list.filter(d=>d.nome.toLowerCase().includes(q)||d.descrizione.toLowerCase().includes(q)||(d.note&&d.note.toLowerCase().includes(q)));}
@@ -583,18 +603,18 @@ function updateCards(rb, content) {
   rb.innerHTML=`<div class="results-bar"><strong>${list.length}</strong> competenz${list.length===1?'a':'e'}${parts.length?' — '+parts.join(' · '):''}`;
   if(!list.length){content.innerHTML=`<div class="empty"><div class="empty-icon">🔍</div><p>Nessuna competenza trovata</p></div>`;return;}
   content.innerHTML=`<div class="cards-grid">${list.map((d,i)=>{
-    const c=COLORS[d.macro_area]||{accent:'#666',dim:'#333'};
+    const s=AREA_STYLE[d.macro_area]||{fg:'#6B7280',bg:'#F3F4F6'};
     return `<div class="card" style="animation-delay:${Math.min(i,15)*25}ms" onclick="openPanel(${d.id})">
-      <div class="card-accent" style="background:${c.accent}"></div>
+      <div class="card-accent" style="background:${s.fg}"></div>
       <div class="card-top">
         <span class="card-id">#${String(d.id).padStart(3,'0')}</span>
-        <span class="badge" style="background:${c.dim};color:${c.accent}">${d.macro_area.replace('Competenze ','')}</span>
+        <span class="badge" style="background:${s.bg};color:${s.fg}">${d.macro_area.replace('Competenze ','')}</span>
       </div>
       <div class="card-title">${d.nome}</div>
       <div class="card-desc">${d.descrizione}</div>
       <div class="card-footer">
         <span class="pill">${d.direzioni.length} direzion${d.direzioni.length===1?'e':'i'}</span>
-        ${d.direzioni.length===13?`<span class="pill" style="color:var(--green);background:var(--green-dim)">Trasversale</span>`:''}
+        ${d.direzioni.length===13?`<span class="pill accent">Trasversale</span>`:''}
       </div>
       ${d.note?`<div class="card-note">${d.note}</div>`:''}
     </div>`;
@@ -602,15 +622,16 @@ function updateCards(rb, content) {
 }
 
 // ── DIREZIONI ──
-function renderDirezioni(el) {
-  const rows = DIREZIONI.map(dir=>{
+function renderDirezioni(el){
+  const rows=DIREZIONI.map(dir=>{
     const comps=DATA.filter(d=>d.direzioni.includes(dir));
     const byArea={}; MACRO_AREE.forEach(a=>byArea[a]=0); comps.forEach(c=>byArea[c.macro_area]++);
     return{name:dir,total:comps.length,byArea};
   }).sort((a,b)=>b.total-a.total);
   el.innerHTML=`
-    <div style="margin-bottom:20px">
-      <div class="section-title">${rows.length} direzioni — ordinate per numero di competenze</div>
+    <div class="page-header">
+      <div class="page-title">Competenze per direzione</div>
+      <div class="page-sub">${rows.length} direzioni — ordinate per numero di competenze</div>
     </div>
     <div class="dir-cards">
       ${rows.map((d,i)=>`
@@ -618,10 +639,10 @@ function renderDirezioni(el) {
           <div class="dcard-name">${d.name}</div>
           <div class="dcard-total">${d.total} competenze</div>
           ${MACRO_AREE.filter(a=>d.byArea[a]>0).map(a=>{
-            const c=COLORS[a];
+            const s=AREA_STYLE[a];
             return`<div class="dcard-area-row">
               <div class="dcard-area-label">${a.replace('Competenze ','')}</div>
-              <div class="dcard-area-track"><div class="dcard-area-fill" style="width:${(d.byArea[a]/d.total*100).toFixed(0)}%;background:${c.accent}"></div></div>
+              <div class="dcard-area-track"><div class="dcard-area-fill" style="width:${(d.byArea[a]/d.total*100).toFixed(0)}%;background:${s.fg}"></div></div>
               <div class="dcard-area-num">${d.byArea[a]}</div>
             </div>`;
           }).join('')}
@@ -631,10 +652,13 @@ function renderDirezioni(el) {
 }
 
 // ── HEATMAP ──
-function renderHeatmap(el) {
+function renderHeatmap(el){
   const grouped={};MACRO_AREE.forEach(a=>grouped[a]=[]);DATA.forEach(d=>grouped[d.macro_area].push(d));
   el.innerHTML=`
-    <div class="section-title" style="margin-bottom:16px">Matrice competenze × direzioni (${DATA.length} × ${DIREZIONI.length})</div>
+    <div class="page-header">
+      <div class="page-title">Matrice competenze × direzioni</div>
+      <div class="page-sub">${DATA.length} competenze · ${DIREZIONI.length} direzioni</div>
+    </div>
     <div class="hm-wrap">
       <table class="hm-table">
         <thead><tr>
@@ -644,11 +668,11 @@ function renderHeatmap(el) {
         <tbody>
           ${MACRO_AREE.map(area=>{
             const items=grouped[area];if(!items.length)return'';
-            const c=COLORS[area];
-            return`<tr class="hm-area-row"><td colspan="${DIREZIONI.length+1}" style="color:${c.accent}">${ICONS[area]} ${area} (${items.length})</td></tr>
+            const s=AREA_STYLE[area];
+            return`<tr class="hm-area-row"><td colspan="${DIREZIONI.length+1}" style="color:${s.fg}">${ICONS[area]} ${area} (${items.length})</td></tr>
             ${items.map(comp=>`
               <tr onclick="openPanel(${comp.id})" style="cursor:pointer">
-                <td style="font-size:11px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink2)" title="${comp.nome}">${comp.nome}</td>
+                <td style="font-size:12px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--n900);font-weight:500" title="${comp.nome}">${comp.nome}</td>
                 ${DIREZIONI.map(dir=>{const on=comp.direzioni.includes(dir);return`<td><div class="hm-cell ${on?'on':'off'}">${on?'✓':''}</div></td>`;}).join('')}
               </tr>`).join('')}`;
           }).join('')}
@@ -658,14 +682,14 @@ function renderHeatmap(el) {
 }
 
 // ── DETAIL PANEL ──
-function openPanel(id) {
-  const comp=DATA.find(d=>d.id===id); if(!comp)return;
-  const c=COLORS[comp.macro_area]||{accent:'#666',dim:'#333'};
+function openPanel(id){
+  const comp=DATA.find(d=>d.id===id);if(!comp)return;
+  const s=AREA_STYLE[comp.macro_area]||{fg:'#6B7280',bg:'#F3F4F6'};
   document.getElementById('panel-content').innerHTML=`
     <div class="panel-header">
       <button class="panel-close" onclick="closePanel()">✕</button>
       <div class="panel-id">#${String(comp.id).padStart(3,'0')}</div>
-      <div class="panel-badge" style="background:${c.dim};color:${c.accent}">${comp.macro_area}</div>
+      <div class="panel-badge" style="background:${s.bg};color:${s.fg}">${comp.macro_area}</div>
       <div class="panel-title">${comp.nome}</div>
     </div>
     <div class="panel-desc">${comp.descrizione}</div>
@@ -683,7 +707,7 @@ function openPanel(id) {
   document.body.style.overflow='hidden';
 }
 
-function closePanel() {
+function closePanel(){
   document.getElementById('panel').classList.remove('open');
   document.getElementById('overlay').classList.remove('open');
   document.body.style.overflow='';
