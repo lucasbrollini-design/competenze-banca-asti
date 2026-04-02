@@ -378,6 +378,69 @@ body {
   .topbar-logo { width:auto; border-right:none; }
   .topbar-kpis { display:none; }
 }
+
+/* ─── DARK MODE TOKENS ─── */
+[data-theme="dark"] {
+  --n900: #F9FAFB;
+  --n700: #E5E7EB;
+  --n500: #9CA3AF;
+  --n400: #6B7280;
+  --n300: #374151;
+  --n200: #1F2937;
+  --n100: #111827;
+  --n50:  #0D1117;
+  --n0:   #161B22;
+
+  --primary-light: #1e2050;
+  --primary-text:  #A5A6FF;
+
+  --info-bg:    #1e3a5f; --info-text:    #93C5FD;
+  --success-bg: #14532d; --success-text: #86EFAC;
+  --warning-bg: #451a03; --warning-text: #FCD34D;
+  --danger-bg:  #450a0a; --danger-text:  #FCA5A5;
+
+  --c-normative-bg:    #450a0a; --c-normative:    #FCA5A5;
+  --c-informatiche-bg: #1e3a5f; --c-informatiche: #93C5FD;
+  --c-linguistiche-bg: #14532d; --c-linguistiche: #86EFAC;
+  --c-supporto-bg:     #451a03; --c-supporto:     #FCD34D;
+  --c-ruolo-bg:        #1e2050; --c-ruolo:        #A5A6FF;
+  --c-soft-bg:         #0c2a4a; --c-soft:         #7DD3FC;
+  --c-manageriali-bg:  #2e1065; --c-manageriali:  #C4B5FD;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.4);
+}
+
+[data-theme="dark"] .topbar { background: #161B22; border-color: #1F2937; }
+[data-theme="dark"] .sidebar { background: #161B22; border-color: #1F2937; }
+[data-theme="dark"] .search-wrap input { background: #0D1117; border-color: #374151; color: #F9FAFB; }
+[data-theme="dark"] .search-wrap input::placeholder { color: #6B7280; }
+[data-theme="dark"] .chip { background: #161B22; border-color: #374151; color: #9CA3AF; }
+[data-theme="dark"] .chip:hover { border-color: #4B5563; color: #E5E7EB; }
+[data-theme="dark"] .hm-wrap { background: #161B22; border-color: #1F2937; }
+[data-theme="dark"] .hm-table th { background: #111827; }
+[data-theme="dark"] .panel { background: #161B22; border-color: #1F2937; }
+[data-theme="dark"] .panel-close { background: #1F2937; border-color: #374151; color: #9CA3AF; }
+[data-theme="dark"] .panel-close:hover { background: #374151; color: #F9FAFB; }
+[data-theme="dark"] .panel-note { background: #111827; border-color: #374151; }
+[data-theme="dark"] #theme-btn { background: #1F2937; border-color: #374151; color: #9CA3AF; }
+[data-theme="dark"] #theme-btn:hover { background: #374151; color: #F9FAFB; }
+
+/* Theme toggle button */
+#theme-btn {
+  width: 36px; height: 36px;
+  border: 1px solid var(--n200);
+  border-radius: var(--radius);
+  background: var(--n0);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--n500);
+  transition: all .15s;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+#theme-btn:hover { background: var(--n100); color: var(--n700); }
+
 </style>
 </head>
 <body>
@@ -414,6 +477,12 @@ body {
     <div class="topbar-divider"></div>
     <div style="font-size:13px;color:var(--n500);padding-left:4px;">Banca di Asti · Modello di Competenze</div>
   </div>
+  <button id="theme-btn" onclick="toggleTheme()" title="Cambia tema" aria-label="Cambia tema">
+    <span id="theme-icon">
+      <!-- moon icon (shown in light mode) -->
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </span>
+  </button>
 </header>
 
 <!-- SIDEBAR -->
@@ -712,6 +781,30 @@ function closePanel(){
   document.getElementById('overlay').classList.remove('open');
   document.body.style.overflow='';
 }
+
+// ── THEME TOGGLE ──
+const MOON_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+const SUN_SVG  = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+
+function applyTheme(isDark) {
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('theme-icon').innerHTML = isDark ? SUN_SVG : MOON_SVG;
+}
+
+function toggleTheme() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const newDark = !isDark;
+  localStorage.setItem('theme', newDark ? 'dark' : 'light');
+  applyTheme(newDark);
+}
+
+// Init theme from localStorage or system preference
+(function() {
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved ? saved === 'dark' : prefersDark);
+})();
+
 </script>
 </body>
 </html>
