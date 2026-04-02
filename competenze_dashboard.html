@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modello Competenze — Banca di Asti</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0E0F14;
+  --bg2: #14151C;
+  --bg3: #1A1C26;
+  --surface: #1F2130;
+  --surface2: #252840;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --ink: #F0F2FF;
+  --ink2: #9BA3C8;
+  --ink3: #5C6490;
+  --red: #E85D75;
+  --red-dim: rgba(232,93,117,0.15);
+  --blue: #5B8AF5;
+  --blue-dim: rgba(91,138,245,0.15);
+  --green: #4ECBA4;
+  --green-dim: rgba(78,203,164,0.15);
+  --amber: #F5A623;
+  --amber-dim: rgba(245,166,35,0.15);
+  --purple: #A78BFA;
+  --purple-dim: rgba(167,139,250,0.15);
+  --cyan: #22D3EE;
+  --cyan-dim: rgba(34,211,238,0.15);
+  --pink: #F472B6;
+  --pink-dim: rgba(244,114,182,0.15);
+
+  --r: 12px;
+  --r-sm: 8px;
+  --shadow: 0 0 0 1px var(--border), 0 8px 32px rgba(0,0,0,0.4);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* BG GRID */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events:none;
+}
+
+/* HEADER */
+.header {
+  position: sticky; top:0; z-index:100;
+  background: rgba(14,15,20,0.85);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  height: 64px;
+  gap: 24px;
+}
+.logo {
+  display:flex; align-items:center; gap:10px;
+  flex-shrink:0;
+}
+.logo-mark {
+  width:34px; height:34px;
+  background: linear-gradient(135deg, var(--red), #B03050);
+  border-radius: 8px;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:13px; letter-spacing:-0.5px;
+  color:#fff;
+}
+.logo-text {
+  font-size:13px; font-weight:600; color:var(--ink);
+  line-height:1.2;
+}
+.logo-sub { font-size:10px; color:var(--ink3); font-weight:400; }
+
+.header-divider { width:1px; height:28px; background:var(--border); flex-shrink:0; }
+
+/* KPIs */
+.header-kpis {
+  display:flex; gap:32px; flex:1;
+}
+.kpi {
+  display:flex; align-items:center; gap:8px;
+}
+.kpi-num {
+  font-family:'DM Mono',monospace;
+  font-size:22px; font-weight:500; color:var(--ink);
+  letter-spacing:-1px;
+}
+.kpi-label { font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:.8px; }
+
+/* NAV */
+.nav {
+  margin-left:auto; display:flex; gap:2px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 3px;
+}
+.nav-btn {
+  border:none; background:transparent;
+  font-family:'Sora',sans-serif; font-size:12px; font-weight:500;
+  color:var(--ink3); cursor:pointer;
+  padding:6px 14px; border-radius: 7px;
+  transition: all .2s; white-space:nowrap;
+}
+.nav-btn:hover { color:var(--ink); background:var(--surface); }
+.nav-btn.active { background:var(--surface2); color:var(--ink); }
+
+/* MAIN */
+.main { position:relative; z-index:1; padding:28px 32px 60px; max-width:1600px; margin:0 auto; }
+
+/* SEARCH + FILTERS */
+.toolbar { display:flex; gap:12px; margin-bottom:20px; align-items:center; }
+.search-wrap { position:relative; flex:1; max-width:420px; }
+.search-wrap svg { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--ink3); pointer-events:none; }
+.search-wrap input {
+  width:100%; padding:10px 16px 10px 42px;
+  background:var(--surface); border:1px solid var(--border2);
+  border-radius: var(--r-sm); color:var(--ink);
+  font-family:'Sora',sans-serif; font-size:13px; outline:none;
+  transition: border-color .2s;
+}
+.search-wrap input:focus { border-color:rgba(91,138,245,0.5); }
+.search-wrap input::placeholder { color:var(--ink3); }
+
+.filters { display:flex; gap:6px; flex-wrap:wrap; }
+.chip {
+  padding:6px 12px; border:1px solid var(--border);
+  border-radius:100px; font-size:11.5px; font-weight:500;
+  color:var(--ink3); background:var(--surface); cursor:pointer;
+  transition:all .2s; display:flex; align-items:center; gap:5px;
+  font-family:'Sora',sans-serif;
+}
+.chip:hover { border-color:var(--border2); color:var(--ink); }
+.chip.active { border-color:var(--blue); background:var(--blue-dim); color:var(--blue); }
+.chip .dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+
+/* RESULTS */
+.results-bar {
+  font-size:12px; color:var(--ink3);
+  margin-bottom:16px;
+  display:flex; align-items:center; gap:8px;
+}
+.results-bar strong { color:var(--ink); }
+
+/* ─── OVERVIEW ─── */
+.ov-summary {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:28px;
+}
+.stat-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--r); padding:20px 22px;
+  position:relative; overflow:hidden;
+}
+.stat-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+}
+.stat-card.red::before { background:var(--red); }
+.stat-card.blue::before { background:var(--blue); }
+.stat-card.green::before { background:var(--green); }
+.stat-num {
+  font-family:'DM Mono',monospace; font-size:40px; font-weight:500;
+  letter-spacing:-2px; line-height:1; margin-bottom:4px;
+}
+.stat-card.red .stat-num { color:var(--red); }
+.stat-card.blue .stat-num { color:var(--blue); }
+.stat-card.green .stat-num { color:var(--green); }
+.stat-label { font-size:12px; color:var(--ink3); }
+.stat-sub { font-size:11px; color:var(--ink3); margin-top:6px; opacity:.7; }
+
+.section-title {
+  font-size:10px; text-transform:uppercase; letter-spacing:1.5px;
+  color:var(--ink3); font-weight:600; margin-bottom:14px;
+}
+
+.ov-areas {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; margin-bottom:32px;
+}
+.area-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--r); padding:16px 18px;
+  cursor:pointer; transition:all .25s;
+  position:relative; overflow:hidden;
+}
+.area-card:hover { border-color:var(--border2); transform:translateY(-2px); }
+.area-card::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+  opacity:.6;
+}
+.area-card-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.area-icon { font-size:18px; }
+.area-count {
+  font-family:'DM Mono',monospace; font-size:28px; font-weight:500; line-height:1; margin-bottom:3px;
+}
+.area-name { font-size:12px; color:var(--ink2); }
+.area-bar { height:3px; background:var(--bg3); border-radius:100px; margin-top:12px; overflow:hidden; }
+.area-bar-fill { height:100%; border-radius:100px; transition:width .6s cubic-bezier(.4,0,.2,1); }
+
+.dir-chart {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--r); padding:22px 24px;
+}
+.dir-row {
+  display:flex; align-items:center; gap:12px;
+  padding:7px 0; cursor:pointer; border-radius:6px;
+  transition: background .15s; padding-left:8px;
+}
+.dir-row:hover { background:var(--bg3); }
+.dir-name { font-size:12px; color:var(--ink2); width:210px; flex-shrink:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.dir-track { flex:1; height:6px; background:var(--bg3); border-radius:100px; overflow:hidden; }
+.dir-fill { height:100%; border-radius:100px; background:var(--red); transition:width .5s cubic-bezier(.4,0,.2,1); }
+.dir-num { font-family:'DM Mono',monospace; font-size:12px; color:var(--ink3); width:28px; text-align:right; }
+
+/* ─── CATALOGO ─── */
+.cards-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:12px;
+}
+.card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--r); padding:18px 20px;
+  cursor:pointer; transition:all .2s;
+  position:relative; overflow:hidden;
+}
+.card:hover { border-color:var(--border2); transform:translateY(-1px); box-shadow:0 8px 32px rgba(0,0,0,0.4); }
+.card-accent { position:absolute; left:0; top:0; bottom:0; width:3px; }
+.card-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; padding-left:12px; }
+.card-id { font-family:'DM Mono',monospace; font-size:10px; color:var(--ink3); }
+.badge { font-size:10px; font-weight:600; padding:3px 9px; border-radius:100px; }
+.card-title { font-size:14px; font-weight:600; margin-bottom:8px; padding-left:12px; line-height:1.4; }
+.card-desc {
+  font-size:12px; line-height:1.6; color:var(--ink2);
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+  padding-left:12px;
+}
+.card-footer {
+  margin-top:14px; padding-left:12px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+}
+.pill {
+  font-size:10.5px; color:var(--ink3);
+  background:var(--bg3); padding:3px 10px; border-radius:100px;
+}
+.card-note { font-size:10.5px; color:var(--ink3); margin-top:8px; padding-left:12px; font-style:italic; }
+
+/* ─── DIREZIONI VIEW ─── */
+.dir-cards {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:12px;
+}
+.dcard {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--r); padding:20px 22px;
+  cursor:pointer; transition:all .2s;
+}
+.dcard:hover { border-color:var(--border2); transform:translateY(-1px); }
+.dcard-name { font-size:14px; font-weight:600; margin-bottom:4px; }
+.dcard-total { font-size:12px; color:var(--ink3); margin-bottom:16px; }
+.dcard-area-row { display:flex; align-items:center; gap:8px; margin-bottom:7px; }
+.dcard-area-label { font-size:11px; color:var(--ink3); width:120px; flex-shrink:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.dcard-area-track { flex:1; height:5px; background:var(--bg3); border-radius:100px; overflow:hidden; }
+.dcard-area-fill { height:100%; border-radius:100px; }
+.dcard-area-num { font-family:'DM Mono',monospace; font-size:10.5px; color:var(--ink3); width:20px; text-align:right; }
+
+/* ─── HEATMAP ─── */
+.hm-wrap { overflow-x:auto; }
+.hm-table { border-collapse:collapse; font-size:11px; min-width:1000px; width:100%; }
+.hm-table th {
+  padding:6px 4px; color:var(--ink3); font-weight:500; font-size:10px;
+  border-bottom:1px solid var(--border);
+  position:sticky; top:0; background:var(--bg2); z-index:10;
+  text-align:center;
+}
+.hm-table th:first-child { text-align:left; min-width:180px; padding-right:16px; }
+.hm-table th.rot {
+  writing-mode:vertical-lr; transform:rotate(180deg);
+  height:120px; white-space:nowrap; padding:6px 6px;
+}
+.hm-table td {
+  padding:4px; text-align:center;
+  border-bottom:1px solid rgba(255,255,255,0.03);
+}
+.hm-table td:first-child { text-align:left; padding-right:16px; cursor:pointer; }
+.hm-table tbody tr:hover td { background:rgba(255,255,255,0.03); }
+.hm-cell {
+  width:24px; height:24px; border-radius:4px;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:9px; font-weight:700;
+}
+.hm-cell.on { background:var(--red); color:#fff; }
+.hm-cell.off { background:rgba(255,255,255,0.04); }
+.hm-area-row td {
+  font-size:10px; text-transform:uppercase; letter-spacing:1px;
+  font-weight:600; padding:14px 4px 4px;
+}
+
+/* ─── DETAIL PANEL ─── */
+.overlay {
+  position:fixed; inset:0; z-index:200;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(6px);
+  opacity:0; pointer-events:none;
+  transition:opacity .3s;
+}
+.overlay.open { opacity:1; pointer-events:all; }
+
+.panel {
+  position:fixed; right:0; top:0; bottom:0;
+  width:500px; max-width:95vw;
+  background:var(--bg2); z-index:210;
+  border-left:1px solid var(--border);
+  transform:translateX(100%);
+  transition:transform .35s cubic-bezier(.4,0,.2,1);
+  overflow-y:auto;
+}
+.panel.open { transform:translateX(0); }
+
+.panel-header { padding:28px 28px 0; position:relative; }
+.panel-close {
+  position:absolute; right:20px; top:20px;
+  width:32px; height:32px; border:none;
+  background:var(--surface); border-radius:50%;
+  cursor:pointer; color:var(--ink3); font-size:16px;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .2s; font-family:sans-serif;
+}
+.panel-close:hover { background:var(--surface2); color:var(--ink); }
+.panel-id { font-family:'DM Mono',monospace; font-size:11px; color:var(--ink3); margin-bottom:8px; }
+.panel-badge { display:inline-block; font-size:11px; font-weight:600; padding:4px 12px; border-radius:100px; margin-bottom:14px; }
+.panel-title { font-size:22px; font-weight:700; line-height:1.3; margin-bottom:20px; letter-spacing:-.3px; }
+.panel-desc { font-size:13.5px; line-height:1.7; color:var(--ink2); padding:0 28px; margin-bottom:28px; }
+.panel-section { padding:0 28px; margin-bottom:24px; }
+.panel-section-title { font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:var(--ink3); font-weight:600; margin-bottom:12px; }
+.panel-tags { display:flex; flex-wrap:wrap; gap:6px; }
+.panel-tag {
+  font-size:11.5px; font-weight:500;
+  padding:5px 12px; border-radius:100px;
+  border:1px solid var(--border); color:var(--ink3);
+  transition:all .2s;
+}
+.panel-tag.on { border-color:var(--red); background:var(--red-dim); color:var(--red); }
+.panel-note {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--r-sm); padding:14px 16px;
+  font-size:12.5px; color:var(--ink2); line-height:1.6;
+}
+
+/* EMPTY */
+.empty { text-align:center; padding:80px 20px; color:var(--ink3); }
+.empty-icon { font-size:36px; margin-bottom:12px; opacity:.4; }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(10px); }
+  to { opacity:1; transform:translateY(0); }
+}
+.card, .area-card, .dcard, .stat-card {
+  animation: fadeUp .35s ease both;
+}
+
+@media (max-width:768px) {
+  .header { padding:0 16px; gap:12px; }
+  .header-kpis { gap:16px; }
+  .kpi-num { font-size:18px; }
+  .main { padding:20px 16px 40px; }
+  .ov-summary { grid-template-columns:1fr; }
+  .cards-grid { grid-template-columns:1fr; }
+  .dir-cards { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">
+    <div class="logo-mark">BA</div>
+    <div>
+      <div class="logo-text">Banca di Asti</div>
+      <div class="logo-sub">Modello di Competenze</div>
+    </div>
+  </div>
+  <div class="header-divider"></div>
+  <div class="header-kpis">
+    <div class="kpi">
+      <div class="kpi-num" id="hdr-comp">197</div>
+      <div class="kpi-label">Competenze</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-num">7</div>
+      <div class="kpi-label">Macro Aree</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-num">13</div>
+      <div class="kpi-label">Direzioni</div>
+    </div>
+  </div>
+  <nav class="nav" id="nav"></nav>
+</header>
+
+<main class="main" id="main">
+  <div id="toolbar"></div>
+  <div id="results-bar"></div>
+  <div id="content"></div>
+</main>
+
+<div class="overlay" id="overlay"></div>
+<div class="panel" id="panel">
+  <div id="panel-content"></div>
+</div>
+
+<script>
+// ──────────────────────────────────────────────
+// DATA
+// ──────────────────────────────────────────────
+const DATA = [{"id":1,"nome":"Competenze normative generali","descrizione":"Capacità di svolgere il proprio ruolo secondo quanto indicato dal modello organizzativo, dal Codice Etico, dalle disposizioni normative e operative e dai regolamenti interni stabiliti dalla Banca, al fine di garantire che le attività siano svolte in conformità alle disposizioni legali e regolamentari vigenti.","macro_area":"Competenze normative","note":"Tutta la popolazione aziendale","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":2,"nome":"Competenze normative di settore","descrizione":"Capacità di svolgere il proprio ruolo nel rispetto delle disposizioni legali e regolamentari vigenti per il determinato settore lavorativo di riferimento.","macro_area":"Competenze normative","note":"Tutta la popolazione aziendale","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":3,"nome":"Pacchetto Office","descrizione":"Capacità di padroneggiare i principali strumenti del pacchetto Microsoft Office 365 (Outlook, Word, Excel, Access, PowerPoint).","macro_area":"Competenze informatiche","note":"Tutti tranne i Responsabili di Direzione/Servizio","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":4,"nome":"Analisi dei Dati","descrizione":"Capacità di lavorazione e analisi avanzata dei dati a disposizione della propria unità organizzativa/linea di business (come Power BI, Tableau o SAS).","macro_area":"Competenze informatiche","note":"Tutti tranne i Responsabili di Direzione/Servizio","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":5,"nome":"Linguaggi di Programmazione","descrizione":"Capacità di utilizzo dei diversi linguaggi di programmazione per l'attività lavorativa specializzata prevista per il settore di riferimento (come Python, JavaScript, SQL, C).","macro_area":"Competenze informatiche","note":"Tutti tranne i Responsabili di Direzione/Servizio","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":6,"nome":"Software di settore","descrizione":"Capacità di utilizzare software, gestionali e piattaforme digitali dedicate per l'attività lavorativa specializzata prevista per il proprio settore di riferimento.","macro_area":"Competenze informatiche","note":"Tutti tranne i Responsabili di Direzione/Servizio","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":7,"nome":"Lingua inglese","descrizione":"Capacità di comprendere, comunicare e utilizzare in modo efficace la lingua inglese all'interno del proprio contesto lavorativo.","macro_area":"Competenze linguistiche","note":"Tutti tranne i Responsabili di Direzione/Servizio","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":8,"nome":"Altre lingue straniere","descrizione":"Capacità di comprendere, comunicare e utilizzare in modo efficace una o più lingue straniere diverse dall'inglese all'interno del proprio contesto lavorativo.","macro_area":"Competenze linguistiche","note":"Tutti tranne i Responsabili di Direzione/Servizio","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":9,"nome":"Gestione richieste di assistenza","descrizione":"Capacità di fornire assistenza tecnica agli utenti interni di rete e di sede, sia in forma diretta che indiretta.","macro_area":"Competenze di supporto","note":"Attività svolta dagli Uffici di Sede (No Rete)","direzioni":["Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":10,"nome":"Reportistica e rendicontazione","descrizione":"Capacità di relazionare e rendicontare agli uffici interni dedicati le informazioni tecniche necessarie in merito alle attività svolte.","macro_area":"Competenze di supporto","note":"Tutti tranne i Responsabili di Direzione/Servizio","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":11,"nome":"Monitoraggio processi e procedure","descrizione":"Capacità di effettuare un monitoraggio continuo delle attività aziendali in ottica di individuare anomalie o situazioni di rischio nei processi e procedure, su cui prevedere interventi di miglioramento.","macro_area":"Competenze di ruolo","note":"Per le funzioni in cui è presente una figura o un ufficio che implementa processi di monitoraggio e controllo continuo.","direzioni":["Rete Territoriale","Direzione Commerciale","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Direzione Operativa","Direzione Risorse"]},{"id":12,"nome":"Prevenzione del rischio operativo e reputazionale","descrizione":"Capacità di riconoscere e intervenire sui segnali di rischio operativo e prevenire possibili impatti negativi sull'immagine e reputazione della Banca.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale","Servizio Compliance"]},{"id":13,"nome":"Analisi del merito creditizio","descrizione":"Capacità di analizzare e interpretare bilanci aziendali, dichiarazioni dei redditi e/o altre documentazioni finanziarie al fine di valutare il merito creditizio.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale","Direzione Crediti"]},{"id":14,"nome":"Gestione della contrattualistica","descrizione":"Capacità di leggere, gestire e predisporre bozze di contrattualistica che regolano gli accordi con i clienti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":15,"nome":"Prodotti del credito per privati","descrizione":"Capacità di promuovere, attivare ed erogare prodotti del credito per clienti privati e famiglie sulla base della richiesta raccolta.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":16,"nome":"Prodotti del credito per imprese","descrizione":"Capacità di promuovere, attivare ed erogare prodotti del credito per imprese sulla base della richiesta raccolta.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":17,"nome":"Prodotti finanziari e di investimento","descrizione":"Capacità di promuovere, attivare ed erogare prodotti finanziari e di investimento per clienti sulla base della richiesta raccolta.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":18,"nome":"Prodotti previdenziali e assicurativi","descrizione":"Capacità di promuovere, attivare ed erogare prodotti assicurativi per clienti sulla base della richiesta raccolta.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":19,"nome":"Gestione operativa di filiale","descrizione":"Capacità di effettuare verifiche dei tabulati, monitoraggio bonifici in arrivo e verifica documentazioni dei clienti di filiale.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":20,"nome":"Gestione del contante","descrizione":"Capacità di monitorare e regolare i flussi di cassa in entrata e in uscita legati alle attività operative principali di una determinata filiale.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":21,"nome":"Strategie promozionali","descrizione":"Capacità di valorizzare i contenuti e le caratteristiche distintive dei prodotti e servizi offerti dall'azienda con l'obiettivo di comunicarne efficacemente i vantaggi al pubblico target.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale","Direzione Commerciale"]},{"id":22,"nome":"Gestione portafoglio clienti","descrizione":"Capacità di mantenere e sviluppare relazioni con i clienti già esistenti e potenziali offrendo consulenza continua e assistenza.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":23,"nome":"Analisi potenzialità finanziarie (Imprese)","descrizione":"Capacità di valutare la situazione finanziaria delle imprese ai fini di promuovere azioni commerciali customizzate.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":24,"nome":"Analisi potenzialità patrimoniali (Private)","descrizione":"Capacità di valutare la situazione patrimoniale dei clienti Private ai fini di promuovere azioni commerciali customizzate.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":25,"nome":"Prodotti di tutela patrimoniale (assicurazioni)","descrizione":"Capacità di proporre e fornire supporto rispetto ai prodotti previdenziali e assicurativi maggiormente idonei per la tutela patrimoniale dei clienti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Rete Territoriale"]},{"id":26,"nome":"Content Creation e Copywriting","descrizione":"Capacità di utilizzare tecniche di copywriting e storytelling all'interno della creazione di contenuti di carattere comunicativo per diverse piattaforme.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale","Servizio Canali Diretti e Comunicazione"]},{"id":27,"nome":"Digital Communication Marketing","descrizione":"Capacità di impostare una campagna commerciale di promozione digitale di prodotti e servizi mediante mailing, CRM/Marketing cloud, pop-up, testi, immagini.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale","Servizio Canali Diretti e Comunicazione"]},{"id":28,"nome":"Social Media Marketing","descrizione":"Capacità di creare e gestire contenuti adatti per le diverse piattaforme social, impiegando strategie per coinvolgere il pubblico target.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":29,"nome":"Analisi competitive di mercato","descrizione":"Capacità di condurre ricerche competitive per comprendere il posizionamento del marchio e identificare opportunità di differenziazione.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale","Servizio Canali Diretti e Comunicazione"]},{"id":30,"nome":"Budgeting e Pricing","descrizione":"Capacità di collaborare nella definizione dei budget e monitoraggio del portafogli in ottica di efficacia ed efficienza commerciale.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":31,"nome":"Marketing B2B","descrizione":"Capacità di gestione del portafoglio e gestione del cliente interno ai fini di decidere se proseguire o meno la relazione sulla base dell'interpretazione dei dati analizzati.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":32,"nome":"Coordinamento Gestori di Relazione","descrizione":"Capacità di coordinamento e collaborazione con i gestori di relazione imprese e gestione quotidiana delle reti specialistiche sales.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":33,"nome":"Sviluppo prodotti assicurativi","descrizione":"Capacità di effettuare una manutenzione tecnica e normativa del portafoglio prodotti assicurativi e capacità di sviluppare nuovi prodotti assicurativi.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":34,"nome":"Gestione pratiche sinistri","descrizione":"Capacità di gestire le pratiche di sinistro, compresa l'apertura e la loro rubricazione, curando i rapporti con la Rete Territoriale e i periti assicurativi.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":35,"nome":"Gestione post-vendita assicurativo","descrizione":"Capacità di utilizzare strumenti operativi per la gestione del post-vendita, come il sottosistema AZ, SO Bankinsurance e altri sottosistemi.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale","Direzione Operativa"]},{"id":36,"nome":"Sviluppo prodotti del credito","descrizione":"Capacità di sviluppare nuovi prodotti commerciali del credito ordinario e agevolato sulla base di una valutazione del mercato.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":37,"nome":"Advisory del credito aziendale","descrizione":"Capacità di implementare nei processi consulenziali competenze mirate di supporto tecnico su temi del credito quali finanza agevolata, passaggi generazionali, mini-bond.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":38,"nome":"Gestione Trade Estero","descrizione":"Capacità di gestione operativa dei prodotti e dei servizi relativi al comparto estero (transazioni import/export, emissione crediti verso le controparti estere).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":39,"nome":"Contrattualistica e Credito Estero","descrizione":"Capacità di gestione di condizioni e contrattualistica legate ai fidi di linee di credito per il territorio italiano e estero.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":40,"nome":"Gestione bonifici esteri","descrizione":"Capacità di gestire l'iter dei bonifici da e verso l'estero, passando attraverso la valutazione specifica di conformità con la normativa.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":41,"nome":"Valutazione idoneità paesi ad alto rischio","descrizione":"Capacità di valutare la congruità delle operazioni e transazioni sulla base di un confronto di documentazioni normative legali in tema di antiriciclaggio.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":42,"nome":"Advisory per la raccolta diretta e amministrata","descrizione":"Capacità di svolgere consulenza tecnica ai fini di spiegare e argomentare i contenuti dei prodotti finanziari, su richiesta dalle filiali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":43,"nome":"Monitoraggio Consulenti/Gestori","descrizione":"Capacità di assegnazione dei portafogli clienti, monitoraggio e valutazione degli obiettivi commerciali dei consulenti/gestori.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":44,"nome":"Campagne commerciali prodotti finanziari","descrizione":"Capacità di comprendere i prodotti finanziari di raccolta da aggiornare a catalogo, sviluppo di soluzioni e definizione di campagne commerciali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":45,"nome":"Monitoraggi e controlli portafogli","descrizione":"Capacità di analizzare e interpretare le allocazioni di patrimonio dei clienti e di consigliare soluzioni migliorative alla luce degli andamenti di mercato.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":46,"nome":"Advisory per la gestione del portafogli clienti","descrizione":"Capacità di svolgere consulenza tecnica ai Gestori Private in tema di analisi dei portafogli finanziari dei clienti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":47,"nome":"Analisi e gestione richieste pricing","descrizione":"Capacità di fornire consulenza ex ante alla filiale per la formalizzazione di eventuali richieste di variazione pricing.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":48,"nome":"Gestione e monitoraggio storni e rimborsi","descrizione":"Capacità di compiere valutazioni qualitative ex-post e monitoraggio degli storni e rimborsi inseriti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":49,"nome":"Definizione e manutenzione deleghe poteri","descrizione":"Capacità di fornire supporto nella definizione e manutenzione delle Deleghe Poteri in materia di Tassi e Condizioni.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Commerciale"]},{"id":50,"nome":"Advisory finanziario","descrizione":"Capacità di implementare nei processi consulenziali verso la Rete competenze specifiche di supporto tecnico per gli investimenti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":51,"nome":"Asset allocation e gestione rischi portafoglio","descrizione":"Conoscenza delle tassazioni degli strumenti e dei servizi finanziari, delle logiche e delle tecniche di asset allocation.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":52,"nome":"Sviluppo nuovi prodotti finanziari e previdenziali","descrizione":"Capacità di sviluppare nuovi prodotti finanziari di investimento e previdenziali per la clientela.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":53,"nome":"Analisi contesto macroeconomico e mercati finanziari","descrizione":"Capacità di analizzare il contesto macroeconomico, valutando le variabili che influenzano lo scenario e conseguentemente impattano sull'andamento dei mercati finanziari.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":54,"nome":"Negoziazione titoli e collocamenti azionari","descrizione":"Capacità di gestire le aste di compravendita dei titoli di Stato ed i collocamenti azionari ed obbligazionari per conto della clientela.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":55,"nome":"Quotazioni sistemi trading venue","descrizione":"Capacità di rilevare, analizzare e confrontare le quotazioni dei titoli sui sistemi di trading regolamentati.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":56,"nome":"Internalizzatore Sistematico","descrizione":"Capacità di trattare azioni e obbligazioni dei clienti per proprio conto, senza passare attraverso una borsa o altro sistema di trading regolamentato.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":57,"nome":"Gestione Tesoreria","descrizione":"Capacità di gestire efficacemente la liquidità della Banca nel rispetto delle linee di credito disponibili e delle programmazioni aziendali del budget.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":58,"nome":"Funding e investimenti finanziari di proprietà","descrizione":"Capacità di elaborare proposte per gli investimenti del portafoglio di proprietà e gestire le attività di funding sui mercati finanziari e interbancari.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":59,"nome":"Gestione del rischio finanziario","descrizione":"Capacità di gestione delle attività in ottica di allineamento al rischio proposto nel RAS aziendale, di gestione del rischio sul mercato dei cambi.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":60,"nome":"Creazione portafogli modello","descrizione":"Capacità di predisporre portafogli modello per i clienti sulla base di diversi profili di rischio e delle richieste di diversificazione.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":61,"nome":"Valutazione strumenti finanziari","descrizione":"Capacità di valutare e selezionare gli strumenti finanziari (azioni, obbligazioni, ETF, fondi comuni, ecc.) per identificare quelli più adatti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":62,"nome":"Monitoraggio portafogli patrimoniali","descrizione":"Capacità di monitorare i portafogli clienti sulla base degli andamenti di mercato e dei cambiamenti nelle condizioni economiche.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Finanza"]},{"id":63,"nome":"Analisi applicabilità normativa","descrizione":"Capacità di identificare e approfondire le norme applicabili alla Banca e al Gruppo rispetto alle attività connesse al proprio ufficio.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Compliance"]},{"id":64,"nome":"Verifica di idoneità ex ante","descrizione":"Capacità di verificare in via preventiva l'idoneità e l'adeguatezza delle procedure interne ed assicurare il rispetto della normativa di riferimento.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Compliance"]},{"id":65,"nome":"Verifica operatività ex post","descrizione":"Capacità di verificare l'efficacia del processo di idoneità e la corretta applicazione delle procedure interne e dell'operatività.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Compliance"]},{"id":66,"nome":"Verifica idoneità e operatività della Rete","descrizione":"Capacità di compiere controlli sulla rete territoriale di filiali per valutare la conformità operativa e individuare profili di rischio.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Compliance","Servizio Revisione Interna"]},{"id":67,"nome":"Assistenza e gestione reclami clienti","descrizione":"Capacità di fornire assistenza specializzata ai clienti in seguito a una segnalazione di disservizio o reclamo.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Compliance"]},{"id":68,"nome":"Gestione delle istanze legali","descrizione":"Capacità di gestire le istanze di risoluzione stragiudiziale delle controversie riguardanti i reclami con la clientela.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Compliance"]},{"id":69,"nome":"Risk audit","descrizione":"Capacità di svolgere attività di analisi e revisione dei processi e delle procedure aziendali con approccio risk-based.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Revisione Interna"]},{"id":70,"nome":"Controllo del rischio interno","descrizione":"Capacità di compiere controlli e monitoraggi dei profili di rischio più significativi della gestione aziendale interna, mediante tecniche di audit dei processi.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Revisione Interna"]},{"id":71,"nome":"Raccolta e integrazione dei rischi","descrizione":"Capacità di raccogliere, integrare e analizzare diverse tipologie di rischio creditizio, finanziario, di tasso, di liquidità o di mercato.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":72,"nome":"Quantificazione e valutazione dei rischi","descrizione":"Capacità di impiegare modelli quantitativi e qualitativi di misurazione per la valutazione dell'impatto dei rischi raccolti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":73,"nome":"Confronto parametri di rischio","descrizione":"Capacità di confrontare i rischi analizzati sulla base di parametri normativi di riferimento (es. ICAAP, ILAAP, RAF).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":74,"nome":"Analisi benchmark modelli di riferimento","descrizione":"Capacità di analizzare e confrontare benchmark di modelli di riferimento interni e/o esterni.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":75,"nome":"Verifica dei modelli interni","descrizione":"Capacità di confrontare vantaggi e limiti dei diversi modelli di credito e selezionare quello potenzialmente più efficace.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":76,"nome":"Convalida modelli interni","descrizione":"Revisionare e convalidare i modelli interni di credito e di rating desk in conformità con la normativa e l'approccio AIRB.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":77,"nome":"Valutazione creditizia clienti","descrizione":"Capacità di raccolta e valutazione delle informazioni creditizie reperibili sui clienti (business information, centrale rischi, utilizzo delle linee).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":78,"nome":"Sviluppo modelli interni","descrizione":"Capacità di selezionare il modello statistico maggiormente idoneo per sviluppare un modello di credito interno in linea con l'approccio AIRB.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":79,"nome":"Rating Attribution","descrizione":"Capacità di applicare diversi modelli di rating per attribuire una classificazione al livello di rischio della clientela.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management","Direzione Crediti"]},{"id":80,"nome":"Rating Desk","descrizione":"Capacità di raccogliere e confrontare, all'interno della rete commerciale, ulteriori informazioni quali-quantitative sulla clientela.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":81,"nome":"Data Quality","descrizione":"Capacità di gestione, controllo e miglioramento della completezza, integrità e qualità dei dati nel rispetto della conformità normativa.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":82,"nome":"Valutazione e controllo rischi operativi e informatici","descrizione":"Capacità di identificare, valutare e controllare rischi legati all'operatività e alle tecnologie informatiche utilizzate.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Risk Management"]},{"id":83,"nome":"Pratiche di affidamento","descrizione":"Capacità di deliberare le pratiche nell'ambito delle deleghe ricevute o di procedere all'istruttoria delle pratiche di affidamento.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":84,"nome":"Gestione istruttoria concessioni","descrizione":"Capacità di gestione del processo istruttorio legato alla concessione dei mutui, concessione finanziamenti, prestiti e carte di credito e debito.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":85,"nome":"Gestione prodotti di finanziamento a privati","descrizione":"Capacità di gestire l'erogazione dei mutui e dei prodotti di finanziamento al consumo, carte di credito e di debito.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":86,"nome":"Verifica ammissibilità credito agevolato","descrizione":"Capacità di verificare la titolarità di accedere alla garanzia diretta e/o alle agevolazioni dei finanziamenti proposti dalla Rete Commerciale.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":87,"nome":"Attivazione e gestione convenzioni credito agevolato","descrizione":"Capacità di curare l'istruttoria delle operazioni di credito speciale e gestione operativa delle garanzie dirette.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":88,"nome":"Sviluppo di nuove convenzioni e agevolazioni","descrizione":"Capacità di sviluppare nuove convenzioni e agevolazioni del credito, o valutare la variazione di convenzioni già esistenti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":89,"nome":"Emissione crediti di firma","descrizione":"Capacità di provvedere all'emissione dei crediti di firma, curare il perfezionamento dei crediti emessi e assicurare la relativa gestione operativa-contabile.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":90,"nome":"Supporto operativo cartolarizzazioni e contabilità","descrizione":"Capacità gestione delle pratiche che riguardano la cartolarizzazione e supporto alle attività di tesoreria e alla quadratura dei dati contabili.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":91,"nome":"Supporto operativo fidi e garanzie","descrizione":"Capacità di gestione delle pratiche che riguardano i fidi, le linee di credito, la gestione delle garanzie collegate.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":92,"nome":"Supporto operativo pratiche mutui","descrizione":"Capacità di gestione delle pratiche che riguardano i mutui ipotecari post-delibera (stipula, contabilizzazione, attività ongoing).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":93,"nome":"Monitoraggio anomalie del credito","descrizione":"Capacità di monitorare e individuare le posizioni di credito della clientela che presentano situazioni anomale effettive o potenziali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":94,"nome":"Interpretazione del Potenziale Anonimo","descrizione":"Capacità di interpretare i trigger delle posizioni di anomalia e di esprimere un parere motivato sulle pratiche di proposta di affidamento.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":95,"nome":"Risoluzione anomalie del credito","descrizione":"Capacità di prevedere azioni correttive per promuovere il superamento dei momenti di difficoltà delle posizioni debitorie della clientela.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti"]},{"id":96,"nome":"Collection Management","descrizione":"Capacità di individuare le posizioni di deterioramento credito da affidare alle società di recupero, di curare i rapporti gestionali con esse.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":97,"nome":"Valutazioni NPE/NPL","descrizione":"Capacità di effettuare valutazioni trimestrali Stage 3 di NPE e Portafogli NPL e sviluppare la strategia gestionale assegnata.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":98,"nome":"Processi di cessione crediti","descrizione":"Capacità di strutturare i processi delle operazioni di cessione: strutturazione gare, contrattualistica closing, post vendita e monitoraggio.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":99,"nome":"Processi completi del credito","descrizione":"Capacità di monitorare tramite DWH del Credito i crediti in bonis e deteriorati al fine di assicurare l'attuazione delle normative aziendali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":100,"nome":"Classificazione status credito","descrizione":"Capacità di classificazione dello status dei crediti anomali o in sofferenza nell'ambito dei poteri previsti dal Regolamento e Policy del Gruppo.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":101,"nome":"Valutazione anomalie creditizie","descrizione":"Capacità di analizzare e valutare i segnali di deterioramento di un credito (early warning signals).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":102,"nome":"Gestione delle ristrutturazioni","descrizione":"Capacità di valutare, attraverso strumenti di workout, piani di rientro che siano sostenibili per il debitore e accettabili per la Banca.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":103,"nome":"Procedure collateral","descrizione":"Capacità di effettuare interrogazioni e interpretazioni di dati catastali e ipocatastali per la gestione delle garanzie collaterali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":104,"nome":"Procedure giuridiche del credito","descrizione":"Capacità di applicare conoscenze giuridiche nell'ambito di perizie, contestazioni dei clienti, cessione dei crediti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":105,"nome":"Azioni di recupero e cessione credito","descrizione":"Capacità di valutare le azioni di recupero credito e implementare azioni di recupero con via stragiudiziale o mediante cessione del credito.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":106,"nome":"Contabilità del credito","descrizione":"Capacità di gestione della contabilità giornaliera relativa a quietanziamenti su singole pratiche, contabilità mensile e trimestrale.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Crediti Deteriorati"]},{"id":107,"nome":"Redazione del bilancio bancario","descrizione":"Capacità di predisporre proposte di bilancio d'esercizio, di bilancio consolidato e separato e dei relativi allegati.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":108,"nome":"Contabilità analitica e generale","descrizione":"Capacità di rilevazione e gestione delle scritture contabili, tenuta del libro giornale e del libro inventari.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":109,"nome":"Contabilità fornitori","descrizione":"Capacità di gestire e monitorare tutte le operazioni contabili relative ai fornitori, inclusa la registrazione, la verifica e la riconciliazione delle fatture ricevute.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":110,"nome":"Segnalazioni di Vigilanza","descrizione":"Capacità di assicurare tempestività, precisione e qualità delle segnalazioni, gestendo i rapporti con autorità di vigilanza.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":111,"nome":"Adempimenti fiscali","descrizione":"Capacità di predisporre le dichiarazioni fiscali relative ad un istituto di credito.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":112,"nome":"Gestione contenzioso fiscale","descrizione":"Capacità di gestione extragiudiziale di controversie legali e contenziosi fiscali (es. liquidazione imposte di registro).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":113,"nome":"Raccolta dati fiscali","descrizione":"Capacità di raccogliere, integrare e effettuare controlli sulle informazioni di carattere fiscale legate a diverse aree aziendali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":114,"nome":"Business analytics","descrizione":"Capacità di raccogliere, integrare e analizzare dati macroeconomici e interni mediante strumenti di business intelligence.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":115,"nome":"Forecasting e pianificazione","descrizione":"Capacità di formulare prospetti economici e finanziari di breve, medio e lungo termine attraverso l'analisi di scenari.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":116,"nome":"Definizione budget e piano strategico","descrizione":"Capacità di elaborare, monitorare e aggiornare budget e piani strategici in coerenza con gli obiettivi aziendali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":117,"nome":"Monitoraggio e aggiornamento centri di profitto","descrizione":"Capacità di monitorare l'andamento economico-finanziario dei centri di profitto e di costo, aggiornando i portafogli.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":118,"nome":"Clusterizzazione dati economico-finanziari","descrizione":"Capacità di raggruppare e analizzare dati economico-finanziari utilizzando metodi di clusterizzazione.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":119,"nome":"Analisi e gestione variances","descrizione":"Capacità di analizzare gli scostamenti (variances) tra budget e risultati effettivi in relazione ai KPI aziendali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":120,"nome":"Stesura bilancio di sostenibilità (ex DNF)","descrizione":"Capacità di predisporre proposte di bilancio secondo l'informativa finanziaria e di sostenibilità.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":121,"nome":"Controllo di bilancio","descrizione":"Capacità di eseguire il controllo dei dati finanziari in conformità ai principi contabili internazionali (IFRS/IAS).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":122,"nome":"Modello di controllo interno","descrizione":"Capacità di progettare e implementare un modello di controllo interno efficace, allineato alle normative di governance aziendale.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":123,"nome":"Pre-audit di bilancio","descrizione":"Capacità di raccogliere dati e informazioni dalle fonti che contribuiscono alla realizzazione del bilancio per verificare la presenza di eventuali anomalie.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Bilancio e Pianificazione"]},{"id":124,"nome":"Segreteria di Direzione","descrizione":"Capacità di raccogliere e organizzare le informazioni di Direzione, gestire la pianificazione delle attività in agenda.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Affari Legali e Societari"]},{"id":125,"nome":"Stesura e aggiornamento regolamentazione interna","descrizione":"Capacità di redigere e aggiornare testi di Regolamenti, Policy e Disposizioni Normative e Operative.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Affari Legali e Societari"]},{"id":126,"nome":"Supporto Organi Sociali","descrizione":"Capacità di fornire supporto organizzativo agli Organi Sociali, garantendo la corretta gestione e tenuta dei libri sociali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Affari Legali e Societari"]},{"id":127,"nome":"Gestione vertenze civili","descrizione":"Capacità di gestire e monitorare vertenze giudiziali e stragiudiziali, inclusi i contenziosi giuslavoristici.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Affari Legali e Societari"]},{"id":128,"nome":"Gestione vertenze penali","descrizione":"Capacità di gestire e monitorare vertenze e contenziosi penali, coordinandosi con le autorità competenti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Affari Legali e Societari"]},{"id":129,"nome":"Adempimenti GDPR","descrizione":"Capacità di gestire gli adempimenti previsti dal GDPR, garantendo conformità normativa sulla protezione dei dati personali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Affari Legali e Societari"]},{"id":130,"nome":"Predisposizione e aggiornamento contratti bancari","descrizione":"Capacità di predisporre, aggiornare e gestire contratti bancari destinati alla clientela.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Affari Legali e Societari"]},{"id":131,"nome":"People Diversity, Equity & Inclusion","descrizione":"Capacità di adattare il linguaggio e le azioni rivolte alle persone interne ed esterne all'organizzazione nel rispetto dei principi di equità, diversità e inclusione.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione","Direzione Risorse"]},{"id":132,"nome":"Comunicazione Istituzionale e Brand Identity","descrizione":"Capacità di definire e garantire il rispetto degli standard di comunicazione fissati per la Corporate Identity.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":133,"nome":"Gestione eventi di comunicazione","descrizione":"Capacità di pianificare, organizzare e coordinare eventi di comunicazione interna ed esterna.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":134,"nome":"Relazioni Pubbliche e con i Media","descrizione":"Capacità di curare e coordinare le relazioni con gli organi di informazione, agenzie di comunicazione esterne e portali internet.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":135,"nome":"Gestione e sviluppo dei servizi telematici","descrizione":"Capacità di gestire operativamente i canali diretti e digitali di accesso bancario (internet banking, remote banking, mobile banking).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":136,"nome":"Gestione operatività carte","descrizione":"Capacità di gestire operativamente carte di credito, debito e prepagate su circuiti nazionali e internazionali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":137,"nome":"Sistemi di pagamento digitali e alternativi","descrizione":"Capacità di integrare ai sistemi di pagamento tradizionali la gestione di sistemi di pagamento alternativi (Apple Pay, Google Pay, Satispay).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":138,"nome":"Servizi di incasso e POS","descrizione":"Capacità di gestione dei meccanismi che regolano gli incassi mediante il servizio di POS fisici e virtuali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":139,"nome":"Autenticazione e Firma digitale","descrizione":"Capacità di gestire, monitorare e garantire la conformità normativa nei processi di autenticazione e firma digitale.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":140,"nome":"Interfaccia cliente da remoto","descrizione":"Capacità di identificare e proporre prodotti e soluzioni di design per processi di front-end lato cliente e gestione della clientela da remoto.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":141,"nome":"Funzioni FEU di assistenza","descrizione":"Capacità di utilizzare le funzioni FEU per la gestione tempestiva e risolutiva delle richieste di assistenza clienti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":142,"nome":"Assistenza clienti (Contact Center)","descrizione":"Capacità di fornire assistenza specializzata ai clienti sulle piattaforme di Internet e Mobile Banking.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Servizio Canali Diretti e Comunicazione"]},{"id":143,"nome":"Gestione tesoreria enti","descrizione":"Capacità di gestire la tesoreria e la cassa per gli Enti Pubblici clienti della Banca.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":144,"nome":"Partecipazione gare","descrizione":"Capacità di analizzare bandi di gara per l'accreditamento della tesoreria degli Enti Pubblici.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":145,"nome":"Riconciliazione Liquidità Enti","descrizione":"Capacità di effettuare procedure di riconciliazione bancaria per verificare e allineare i movimenti di tesoreria.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":146,"nome":"Riconciliazione per Controparti","descrizione":"Capacità di effettuare procedure di riconciliazione bancaria per controparti nazionali ed estere.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":147,"nome":"Back office bancario","descrizione":"Capacità di fornire supporto operativo alle filiali per le attività giornaliere e richieste specifiche.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":148,"nome":"Gestione Helpdesk operativo","descrizione":"Capacità di fornire supporto alla rete su processi e procedure informatiche di sportello tramite Helpdesk operativo.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa","Direzione Risorse"]},{"id":149,"nome":"Gestione operativa dei prodotti assicurativi","descrizione":"Capacità di analizzare e gestire l'operatività legata ai prodotti assicurativi (polizze danni, vita, IBIPs, FPA).","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":150,"nome":"Gestione operativa strumenti finanziari","descrizione":"Capacità di analizzare e gestire l'operatività degli strumenti finanziari, comprendendone le caratteristiche e il funzionamento.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":151,"nome":"Gestione operativa contabilità e bilancio","descrizione":"Capacità di gestire scritture contabili e predisporre bilanci relativi al reparto titoli e operazioni finanziarie.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":152,"nome":"Controllo periodico anagrafica","descrizione":"Capacità di svolgere attività periodiche di controllo sulla base dei dati anagrafici.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":153,"nome":"Segnalazioni Centrale Rischi","descrizione":"Capacità di gestire ed effettuare segnalazioni di vigilanza alla Centrale dei Rischi di Banca d'Italia.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":154,"nome":"Gestione variazioni anagrafiche","descrizione":"Capacità di gestire quotidianamente gli scambi di messaggi con Banca d'Italia relativi ad aggiornamenti anagrafici.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":155,"nome":"Anagrafe dei rapporti finanziari","descrizione":"Capacità di predisporre e inviare rapporti finanziari mensili dei clienti all'Agenzia delle Entrate tramite l'Applicativo ARF.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":156,"nome":"Aggiornamento registro Parti Correlate","descrizione":"Inserimento e aggiornamento di dati dei Soci ricevuti dall'Ufficio Segreteria con i dati delle correlazioni e familiarità.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":157,"nome":"Gestione Pratiche e Condizioni GUC","descrizione":"Capacità di aggiornare e modificare le pratiche GUC per la gestione delle condizioni economiche dei servizi offerti dalla Banca.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":158,"nome":"Trasparenza informativa","descrizione":"Capacità di produrre e aggiornare documentazioni pre-contrattuali, contrattuali e periodiche obbligatorie per i prodotti erogati ai clienti.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":159,"nome":"Conformità archiviazione documentale","descrizione":"Capacità di verificare la conformità delle condizioni contrattuali ai fogli informativi.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":160,"nome":"Analisi e controllo del rischio di usura","descrizione":"Capacità di analizzare e identificare potenziali situazioni di rischio di usura a ogni liquidazione.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Operativa"]},{"id":161,"nome":"Gestione dei rapporti sindacali","descrizione":"Capacità di gestire i rapporti sindacali attraverso la negoziazione di contratti collettivi e individuali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":162,"nome":"Contabilità e paghe","descrizione":"Capacità di elaborare buste paga e gestire le voci retributive, deduzioni fiscali e previdenziali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":163,"nome":"Adempimenti amministrativi","descrizione":"Capacità di rispettare gli adempimenti legati alla compilazione del modello F24, la Certificazione Unica (CU), il modello 7.70.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":164,"nome":"Contenzioso giuslavoristico","descrizione":"Capacità di gestire controversie tra datore di lavoro e dipendenti, incluse questioni legate a patti di non concorrenza.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":165,"nome":"Reclutamento e selezione","descrizione":"Capacità di gestire l'intero processo di reclutamento e selezione, dalla definizione del fabbisogno alla pubblicazione delle opportunità.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":166,"nome":"Formazione e Sviluppo","descrizione":"Capacità di analizzare i bisogni formativi e le aree di sviluppo aziendale, progettando interventi formativi e pianificando obiettivi.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":167,"nome":"Valutazione del personale","descrizione":"Capacità di effettuare la mappatura delle competenze, la valutazione delle performance aziendali e l'analisi delle attitudini.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":168,"nome":"People Strategy","descrizione":"Capacità di progettare e attuare strategie di attraction, retention ed employer branding.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":169,"nome":"Ottimizzazione dei processi aziendali","descrizione":"Capacità di analizzare, riprogettare e implementare soluzioni metodologiche per ottimizzare i processi di lavoro.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":170,"nome":"Project Management tools","descrizione":"Capacità di utilizzare metodologie e strumenti di Project Management per pianificare, monitorare e gestire progetti complessi.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":171,"nome":"Coordinamento attività progettuali","descrizione":"Capacità di organizzare e coordinare tutti gli aspetti operativi di un progetto.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":172,"nome":"Contabilità immobiliare","descrizione":"Capacità di gestire gli aspetti contabili del patrimonio immobiliare, inclusi affitti, costi di manutenzione e spese gestionali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":173,"nome":"Property e facility","descrizione":"Capacità di pianificare e ottimizzare l'utilizzo degli spazi aziendali, gestendo le operazioni legate al funzionamento quotidiano degli immobili.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":174,"nome":"Valutazione immobiliare","descrizione":"Capacità di stimare il valore commerciale e tecnico degli immobili utilizzando dati di mercato e catastali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":175,"nome":"Safety & Security","descrizione":"Capacità di redigere i Documenti di Valutazione del Rischio (DVR) e garantire la sicurezza sul lavoro ai sensi del D.Lgs. 81/08.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":176,"nome":"Documentazione immobiliare","descrizione":"Capacità di redigere, aggiornare e archiviare documentazione tecnica e amministrativa relativa agli immobili.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":177,"nome":"Sviluppo Software","descrizione":"Capacità di progettare, sviluppare e mantenere applicazioni e soluzioni software a supporto delle esigenze aziendali.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":178,"nome":"Governance IT","descrizione":"Capacità di definire i processi di gestione e governo di ICT in riferimento alla specifica normativa esterna.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":179,"nome":"Sicurezza informatica","descrizione":"Capacità di implementare misure preventive, identificare vulnerabilità e gestire incidenti di sicurezza.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":180,"nome":"Gestione sistemi informatici","descrizione":"Capacità di gestione delle infrastrutture ICT (Data Center, storage, network), desktop management, servizi di base.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":181,"nome":"Data engineering","descrizione":"Capacità di mettere a disposizione delle unità organizzative i dati presenti sul sistema informativo; capacità di analisi, creazione datamart.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":182,"nome":"Analisi e ricerca ESG","descrizione":"Capacità di compiere analisi di benchmark per confrontare le performance ESG aziendali con quelle di altre aziende di settore.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":183,"nome":"Pianificazione aziendale ESG","descrizione":"Capacità di identificare gli obiettivi generali dell'azienda da inserire in un piano di sostenibilità aziendale.","macro_area":"Competenze di ruolo","note":null,"direzioni":["Direzione Risorse"]},{"id":184,"nome":"Integrità","descrizione":"Capacità di comportarsi in modo etico e trasparente, rispettando le regole, i valori aziendali e le responsabilità assegnate.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":185,"nome":"Creatività","descrizione":"Capacità di proporre idee originali per migliorare processi, prodotti o servizi, adattandosi rapidamente ai cambiamenti.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":186,"nome":"Abilità Logiche ed Analitiche","descrizione":"Capacità di analizzare problemi complessi, identificare relazioni causa-effetto e formulare soluzioni pratiche basate su dati e fatti.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":187,"nome":"Capacità Relazionali","descrizione":"Capacità di costruire rapporti positivi e collaborativi con colleghi, clienti o partner esterni.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":188,"nome":"Resilienza","descrizione":"Capacità di mantenere l'equilibrio emotivo e operativo anche sotto pressione.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":189,"nome":"Persuasività","descrizione":"Capacità di influenzare positivamente gli altri attraverso una comunicazione chiara e convincente.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":190,"nome":"Pianificazione e Organizzazione","descrizione":"Capacità di stabilire priorità, pianificare attività e gestire il tempo in modo efficace per rispettare scadenze e obiettivi.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":191,"nome":"Orientamento alla Qualità","descrizione":"Capacità di garantire elevati standard qualitativi nel proprio lavoro, prestando attenzione ai dettagli.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":192,"nome":"Energia e Motivazione","descrizione":"Capacità di mantenere alti livelli di entusiasmo e impegno, affrontando sfide e raggiungendo obiettivi con un atteggiamento proattivo.","macro_area":"Competenze soft","note":"Tutta la popolazione aziendale.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":193,"nome":"Visione innovativa","descrizione":"Capacità di proporre visioni innovative e trasformative per guidare l'organizzazione verso nuovi obiettivi.","macro_area":"Competenze manageriali","note":"Solo i Responsabili di Direzione/Servizio.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":194,"nome":"Pianificazione strategica","descrizione":"Capacità di analizzare contesti complessi, comprendere trend di mercato e definire strategie a lungo termine.","macro_area":"Competenze manageriali","note":"Solo i Responsabili di Direzione/Servizio.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":195,"nome":"Implementazione operativa","descrizione":"Capacità di tradurre piani strategici in risultati concreti, garantendo l'esecuzione di progetti rispettando tempi e risorse.","macro_area":"Competenze manageriali","note":"Solo i Responsabili di Direzione/Servizio.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":196,"nome":"Miglioramento continuo","descrizione":"Capacità di perfezionare processi, prodotti e servizi, promuovendo il miglioramento continuo.","macro_area":"Competenze manageriali","note":"Solo i Responsabili di Direzione/Servizio.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]},{"id":197,"nome":"Coesione di team","descrizione":"Capacità di creare team coesi, favorire la collaborazione e gestire conflitti in modo costruttivo.","macro_area":"Competenze manageriali","note":"Per i Responsabili di Direzione/Servizio e i Responsabili di Ufficio.","direzioni":["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"]}];
+
+const DIREZIONI = ["Rete Territoriale","Direzione Commerciale","Direzione Finanza","Servizio Compliance","Servizio Revisione Interna","Servizio Risk Management","Direzione Crediti","Direzione Crediti Deteriorati","Servizio Bilancio e Pianificazione","Servizio Affari Legali e Societari","Servizio Canali Diretti e Comunicazione","Direzione Operativa","Direzione Risorse"];
+const MACRO_AREE = ["Competenze di ruolo","Competenze di supporto","Competenze informatiche","Competenze linguistiche","Competenze manageriali","Competenze normative","Competenze soft"];
+
+const COLORS = {
+  "Competenze normative":    { accent:"#E85D75", dim:"rgba(232,93,117,0.15)" },
+  "Competenze informatiche": { accent:"#5B8AF5", dim:"rgba(91,138,245,0.15)" },
+  "Competenze linguistiche": { accent:"#4ECBA4", dim:"rgba(78,203,164,0.15)" },
+  "Competenze di supporto":  { accent:"#F5A623", dim:"rgba(245,166,35,0.15)" },
+  "Competenze di ruolo":     { accent:"#A78BFA", dim:"rgba(167,139,250,0.15)" },
+  "Competenze soft":         { accent:"#22D3EE", dim:"rgba(34,211,238,0.15)" },
+  "Competenze manageriali":  { accent:"#F472B6", dim:"rgba(244,114,182,0.15)" },
+};
+const ICONS = {
+  "Competenze normative":"⚖️","Competenze informatiche":"💻",
+  "Competenze linguistiche":"🌐","Competenze di supporto":"🤝",
+  "Competenze di ruolo":"🎯","Competenze soft":"💡","Competenze manageriali":"📊"
+};
+
+// ── STATE ──
+let view = 'overview', search = '', filterArea = null, filterDir = null;
+
+// ── INIT ──
+buildNav();
+render();
+document.getElementById('overlay').addEventListener('click', closePanel);
+document.addEventListener('keydown', e => { if(e.key==='Escape') closePanel(); });
+
+function buildNav() {
+  const tabs = [{id:'overview',l:'Overview'},{id:'catalogo',l:'Catalogo'},{id:'direzioni',l:'Direzioni'},{id:'heatmap',l:'Matrice'}];
+  document.getElementById('nav').innerHTML = tabs.map(t =>
+    `<button class="nav-btn ${t.id===view?'active':''}" onclick="switchView('${t.id}')">${t.l}</button>`
+  ).join('');
+}
+
+function switchView(v) {
+  view=v; search=''; filterArea=null; filterDir=null;
+  buildNav(); render();
+}
+
+function render() {
+  const toolbar = document.getElementById('toolbar');
+  const rb = document.getElementById('results-bar');
+  const content = document.getElementById('content');
+  toolbar.innerHTML=''; rb.innerHTML='';
+  switch(view) {
+    case 'overview':  renderOverview(content); break;
+    case 'catalogo':  renderCatalogo(toolbar, rb, content); break;
+    case 'direzioni': renderDirezioni(content); break;
+    case 'heatmap':   renderHeatmap(content); break;
+  }
+}
+
+// ── OVERVIEW ──
+function renderOverview(el) {
+  const cnt = {}; MACRO_AREE.forEach(a=>cnt[a]=0); DATA.forEach(d=>cnt[d.macro_area]++);
+  const dirCnt = {}; DIREZIONI.forEach(d=>dirCnt[d]=0);
+  DATA.forEach(d=>d.direzioni.forEach(dr=>dirCnt[dr]++));
+  const maxD = Math.max(...Object.values(dirCnt));
+  const trasv = DATA.filter(d=>d.direzioni.length===13).length;
+  const spec = DATA.filter(d=>d.direzioni.length<=2).length;
+  const avg = (DATA.reduce((s,d)=>s+d.direzioni.length,0)/DATA.length).toFixed(1);
+  const maxArea = Math.max(...Object.values(cnt));
+
+  el.innerHTML = `
+    <div class="ov-summary">
+      <div class="stat-card red" style="animation-delay:0ms">
+        <div class="stat-num">${trasv}</div>
+        <div class="stat-label">Competenze trasversali</div>
+        <div class="stat-sub">presenti in tutte le 13 direzioni</div>
+      </div>
+      <div class="stat-card blue" style="animation-delay:60ms">
+        <div class="stat-num">${spec}</div>
+        <div class="stat-label">Competenze specifiche</div>
+        <div class="stat-sub">assegnate a ≤ 2 direzioni</div>
+      </div>
+      <div class="stat-card green" style="animation-delay:120ms">
+        <div class="stat-num">${avg}</div>
+        <div class="stat-label">Media direzioni / competenza</div>
+        <div class="stat-sub">copertura media</div>
+      </div>
+    </div>
+
+    <div class="section-title">Distribuzione per macro area</div>
+    <div class="ov-areas">
+      ${MACRO_AREE.map((a,i) => {
+        const c = COLORS[a];
+        const pct = (cnt[a]/maxArea*100).toFixed(0);
+        return `<div class="area-card" onclick="goArea('${a}')" style="animation-delay:${i*40}ms">
+          <div class="area-card-top">
+            <div class="area-icon">${ICONS[a]}</div>
+            <span style="font-size:10px;color:var(--ink3);font-family:'DM Mono',monospace">${cnt[a]} comp.</span>
+          </div>
+          <div class="area-count" style="color:${c.accent}">${cnt[a]}</div>
+          <div class="area-name">${a}</div>
+          <div class="area-bar"><div class="area-bar-fill" style="width:${pct}%;background:${c.accent}"></div></div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div class="section-title">Competenze per direzione</div>
+    <div class="dir-chart">
+      ${DIREZIONI.map((d,i) => `
+        <div class="dir-row" onclick="goDir('${d}')" style="animation-delay:${i*30}ms">
+          <div class="dir-name" title="${d}">${d}</div>
+          <div class="dir-track"><div class="dir-fill" style="width:${(dirCnt[d]/maxD*100).toFixed(0)}%"></div></div>
+          <div class="dir-num">${dirCnt[d]}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function goArea(a) { view='catalogo'; filterArea=a; filterDir=null; search=''; buildNav(); render(); }
+function goDir(d)  { view='catalogo'; filterDir=d; filterArea=null; search=''; buildNav(); render(); }
+
+// ── CATALOGO ──
+function renderCatalogo(toolbar, rb, content) {
+  toolbar.innerHTML = `
+    <div style="margin-bottom:14px">
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input id="si" type="text" placeholder="Cerca competenza..." value="${search}">
+        </div>
+      </div>
+      <div class="filters">
+        ${MACRO_AREE.map(a=>{
+          const c=COLORS[a];
+          return `<span class="chip ${filterArea===a?'active':''}" onclick="toggleArea('${a}')">
+            <span class="dot" style="background:${c.accent}"></span>${a.replace('Competenze ','')}
+          </span>`;
+        }).join('')}
+      </div>
+      <div class="filters" style="margin-top:6px">
+        ${DIREZIONI.map(d=>`<span class="chip ${filterDir===d?'active':''}" onclick="toggleDir('${d}')">${d}</span>`).join('')}
+      </div>
+    </div>
+  `;
+  document.getElementById('si').addEventListener('input', e=>{search=e.target.value; updateCards(rb,content);});
+  updateCards(rb, content);
+}
+
+function toggleArea(a){filterArea=filterArea===a?null:a; render();}
+function toggleDir(d){filterDir=filterDir===d?null:d; render();}
+
+function updateCards(rb, content) {
+  let list = DATA;
+  if(filterArea) list=list.filter(d=>d.macro_area===filterArea);
+  if(filterDir)  list=list.filter(d=>d.direzioni.includes(filterDir));
+  if(search.trim()){const q=search.toLowerCase();list=list.filter(d=>d.nome.toLowerCase().includes(q)||d.descrizione.toLowerCase().includes(q)||(d.note&&d.note.toLowerCase().includes(q)));}
+  const parts=[]; if(filterArea)parts.push(filterArea); if(filterDir)parts.push(filterDir);
+  rb.innerHTML=`<div class="results-bar"><strong>${list.length}</strong> competenz${list.length===1?'a':'e'}${parts.length?' — '+parts.join(' · '):''}`;
+  if(!list.length){content.innerHTML=`<div class="empty"><div class="empty-icon">🔍</div><p>Nessuna competenza trovata</p></div>`;return;}
+  content.innerHTML=`<div class="cards-grid">${list.map((d,i)=>{
+    const c=COLORS[d.macro_area]||{accent:'#666',dim:'#333'};
+    return `<div class="card" style="animation-delay:${Math.min(i,15)*25}ms" onclick="openPanel(${d.id})">
+      <div class="card-accent" style="background:${c.accent}"></div>
+      <div class="card-top">
+        <span class="card-id">#${String(d.id).padStart(3,'0')}</span>
+        <span class="badge" style="background:${c.dim};color:${c.accent}">${d.macro_area.replace('Competenze ','')}</span>
+      </div>
+      <div class="card-title">${d.nome}</div>
+      <div class="card-desc">${d.descrizione}</div>
+      <div class="card-footer">
+        <span class="pill">${d.direzioni.length} direzion${d.direzioni.length===1?'e':'i'}</span>
+        ${d.direzioni.length===13?`<span class="pill" style="color:var(--green);background:var(--green-dim)">Trasversale</span>`:''}
+      </div>
+      ${d.note?`<div class="card-note">${d.note}</div>`:''}
+    </div>`;
+  }).join('')}</div>`;
+}
+
+// ── DIREZIONI ──
+function renderDirezioni(el) {
+  const rows = DIREZIONI.map(dir=>{
+    const comps=DATA.filter(d=>d.direzioni.includes(dir));
+    const byArea={}; MACRO_AREE.forEach(a=>byArea[a]=0); comps.forEach(c=>byArea[c.macro_area]++);
+    return{name:dir,total:comps.length,byArea};
+  }).sort((a,b)=>b.total-a.total);
+  el.innerHTML=`
+    <div style="margin-bottom:20px">
+      <div class="section-title">${rows.length} direzioni — ordinate per numero di competenze</div>
+    </div>
+    <div class="dir-cards">
+      ${rows.map((d,i)=>`
+        <div class="dcard" onclick="goDir('${d.name}')" style="animation-delay:${i*40}ms">
+          <div class="dcard-name">${d.name}</div>
+          <div class="dcard-total">${d.total} competenze</div>
+          ${MACRO_AREE.filter(a=>d.byArea[a]>0).map(a=>{
+            const c=COLORS[a];
+            return`<div class="dcard-area-row">
+              <div class="dcard-area-label">${a.replace('Competenze ','')}</div>
+              <div class="dcard-area-track"><div class="dcard-area-fill" style="width:${(d.byArea[a]/d.total*100).toFixed(0)}%;background:${c.accent}"></div></div>
+              <div class="dcard-area-num">${d.byArea[a]}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+// ── HEATMAP ──
+function renderHeatmap(el) {
+  const grouped={};MACRO_AREE.forEach(a=>grouped[a]=[]);DATA.forEach(d=>grouped[d.macro_area].push(d));
+  el.innerHTML=`
+    <div class="section-title" style="margin-bottom:16px">Matrice competenze × direzioni (${DATA.length} × ${DIREZIONI.length})</div>
+    <div class="hm-wrap">
+      <table class="hm-table">
+        <thead><tr>
+          <th>Competenza</th>
+          ${DIREZIONI.map(d=>`<th class="rot">${d}</th>`).join('')}
+        </tr></thead>
+        <tbody>
+          ${MACRO_AREE.map(area=>{
+            const items=grouped[area];if(!items.length)return'';
+            const c=COLORS[area];
+            return`<tr class="hm-area-row"><td colspan="${DIREZIONI.length+1}" style="color:${c.accent}">${ICONS[area]} ${area} (${items.length})</td></tr>
+            ${items.map(comp=>`
+              <tr onclick="openPanel(${comp.id})" style="cursor:pointer">
+                <td style="font-size:11px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink2)" title="${comp.nome}">${comp.nome}</td>
+                ${DIREZIONI.map(dir=>{const on=comp.direzioni.includes(dir);return`<td><div class="hm-cell ${on?'on':'off'}">${on?'✓':''}</div></td>`;}).join('')}
+              </tr>`).join('')}`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+// ── DETAIL PANEL ──
+function openPanel(id) {
+  const comp=DATA.find(d=>d.id===id); if(!comp)return;
+  const c=COLORS[comp.macro_area]||{accent:'#666',dim:'#333'};
+  document.getElementById('panel-content').innerHTML=`
+    <div class="panel-header">
+      <button class="panel-close" onclick="closePanel()">✕</button>
+      <div class="panel-id">#${String(comp.id).padStart(3,'0')}</div>
+      <div class="panel-badge" style="background:${c.dim};color:${c.accent}">${comp.macro_area}</div>
+      <div class="panel-title">${comp.nome}</div>
+    </div>
+    <div class="panel-desc">${comp.descrizione}</div>
+    <div class="panel-section">
+      <div class="panel-section-title">Direzioni coinvolte (${comp.direzioni.length} / 13)</div>
+      <div class="panel-tags">
+        ${DIREZIONI.map(d=>`<span class="panel-tag ${comp.direzioni.includes(d)?'on':''}">${d}</span>`).join('')}
+      </div>
+    </div>
+    ${comp.note?`<div class="panel-section"><div class="panel-section-title">Note</div><div class="panel-note">${comp.note}</div></div>`:''}
+    <div style="height:40px"></div>
+  `;
+  document.getElementById('panel').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closePanel() {
+  document.getElementById('panel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+</script>
+</body>
+</html>
